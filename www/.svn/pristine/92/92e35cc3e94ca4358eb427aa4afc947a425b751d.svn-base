@@ -1,0 +1,38 @@
+<ion-view view-title="{{curItem.name}}">    
+    <ion-content class="chat-content-view">
+        <div class="bar bar-header bar-light bar-pink">
+            <div class="row">
+                <div class="col col-70">
+                    <span class="title">点击喜欢，你将不会错过Ta的任何消息</span>
+                </div>
+                <div class="col col-30 text-right">
+                    <a class="btn-like"><img src="img/chat/like.png"></a>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix chatbox">
+
+            <div class="time"><span>{{curItem.time}}</span></div>
+
+            <div class="clearfix receive">
+                <img ng-src="{{curItem.photo}}" class="userphoto">
+                <div class="message">
+                    <p>{{curItem.message}}</p>
+                </div>
+            </div>
+
+            <div class="clearfix sent">
+                <img ng-src="{{curItem.photo}}" class="userphoto">
+                <div class="message">
+                    <p>{{curItem.message}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="bar bar-footer chat-control-bar">
+            <a class="btn-image"><img src="img/chat/microphone.png"></a>
+            <input type="text" class="input-news" placeholder="输入新消息">
+            <a class="btn-image"><img src="img/chat/emocoin.png"></a>
+            <a class="btn-image"><img src="img/chat/plus.png"></a>
+        </div>
+    </ion-content>
+</ion-view>

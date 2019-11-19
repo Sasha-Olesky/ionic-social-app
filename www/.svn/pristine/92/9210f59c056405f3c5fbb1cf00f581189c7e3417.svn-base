@@ -1,0 +1,92 @@
+angular.module('starter.home', [])
+
+.controller('homeCtrl', function($scope, $ionicPlatform, $rootScope, $state, Session, APIManager, ionicToast, $ionicLoading){
+	$scope.$on('$ionicView.beforeEnter', function() {		
+		$scope.$emit('child', true);
+		var url = 'search';
+
+		var data = {userid:Session.getSession('user').id, page:'1'}
+		if($rootScope.location == null || $rootScope.location == "不限")
+			data.address = 0;
+		else{
+			data.address = $rootScope.location;
+		}
+		if($rootScope.fromPage == null)
+			data.from_age = 0;
+		else
+			data.from_age = $rootScope.fromPage;
+		if($rootScope.to_age == null)
+			data.to_age = 0;
+		else
+			data.to_age = $rootScope.to_age;
+		if($rootScope.from_stature == null)
+			data.from_stature = 0;
+		else
+			data.from_stature = $rootScope.from_stature;
+		if($rootScope.to_stature == null)
+			data.to_stature = 0;
+		else
+			data.to_stature = $rootScope.to_stature;
+
+		$ionicLoading.show();
+		APIManager.post(url, data).then(function(res) {
+			if(res.data != '')
+				$scope.users = res.data.users;
+			$ionicLoading.hide();
+			$scope.more = res.data.is_more;
+		});
+	});
+	
+	$scope.$on('$stateChangeStart', function() {
+		$scope.$emit('child', true);		
+	});
+
+	Session.clearSession('history');
+	Session.saveHistory();
+	
+	$scope.likeTa = function(index){
+		$ionicLoading.show();
+		if($scope.users[index].islike == false){
+			var url = 'ifollow';
+			var data = {userid:Session.getSession('user').id, tid:$scope.users[index].id}
+			APIManager.get(url, data).then(function(res) {
+				$scope.users[index].islike = true;
+				$ionicLoading.hide();
+			});
+		}else{
+			var url = 'remove_follow';
+			var data = {userid:Session.getSession('user').id, tid:$scope.users[index].id}
+			APIManager.get(url, data).then(function(res) {
+				$scope.users[index].islike = false;
+				$ionicLoading.hide();
+			});
+		}
+
+	};
+	$scope.goPersonal = function(index) {
+		var userid = $scope.users[index].id;
+		$state.go('personal_space', {id:userid});
+	};
+	$scope.nextToSearch = function(){
+      $state.go('search');
+    }
+    $scope.nextToAlert = function(){
+        $state.go('alert');
+    }
+
+	$scope.loadMore = function() {
+		var url = 'get_users';
+		$scope.pageNo +=1;
+		var data = {userid:Session.getSession('user').id, page:$scope.pageNo}
+		APIManager.get(url, data).then(function(res) {
+			$scope.users = $scope.users.concat(res.data);
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+			$scope.more = res.data.is_more;
+		});
+	};
+	
+	$ionicPlatform.registerBackButtonAction(function () {			
+		Session.exitConfirm($scope);		
+	},100);  
+
+});

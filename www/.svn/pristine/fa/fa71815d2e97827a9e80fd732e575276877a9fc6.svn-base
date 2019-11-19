@@ -1,0 +1,56 @@
+<ion-view view-title="发表动态">
+    <ion-nav-buttons side="left">
+        <a ng-click="clearPost()">
+            <img src="img/public/cross.png">
+        </a>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+        <a ng-click="submitArticle(postContent)" class="btn-public">
+            发表
+        </a>
+    </ion-nav-buttons>
+
+    <ion-content>
+        <form>
+            <div class="content-public">
+                <div class="row">
+                    <label class="item item-input">
+                        <textarea name = "description" rows="6" cols="20" class="txt-public" placeholder="说点什么吧...." ng-model="postdata.description" required></textarea>
+                    </label>
+                </div>
+
+                <div class="row photo-list">
+                    <div class="photo-item">
+                        <img src="img/uploads/public1.png">
+                        <a href="#" class="close"><img src="img/public/close.png"></a>
+                    </div>
+                    <ion-button class="btn-add" ng-click="takePic()">
+                        <img src="img/public/plus.png">
+                    </ion-button>
+
+                </div>
+                <div class="row icon-section">
+                    <div class="col-50">
+                        <p class="location"><i class="icon ion-female"></i> {{postdata.address}}</p>
+                    </div>
+                    <div class="col-50 text-right">
+                        <ion-button class="like-count">{{ 140 - postdata.description.length}}</ion-button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="item item-toggle">
+                        显示位置
+                        <label class="toggle toggle-cryan">
+                            <input type="checkbox" ng-model = "postdata.isaddress">
+                            <div class="track">
+                                <div class="handle"></div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+    </ion-content>
+</ion-view>

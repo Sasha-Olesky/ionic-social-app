@@ -1,0 +1,25 @@
+﻿<ion-view hide-nav-bar="true" class="forgetview">
+	<button class="button button-icon ion-ios-arrow-back back-login" ng-click="go_state('login')"></button>
+    <div class="login-warp">
+		
+		<div class="item-block">
+            <label class="item item-input">
+                <span class="input-label"><img src="img/login/ico-username.png" alt="用?名"></span>
+                <input type="tel" maxlength="11" class="active-input" placeholder="手机" ng-model="findpwd.phone">
+            </label>
+        </div>
+		<div class="item-block">
+            
+            <label class="item item-input verify-input">
+                <span class="input-label"><img src="img/login/ico-username.png" alt="验证码"></span>
+                <input type="tel" maxlength="11" class="active-input" placeholder="验证码" ng-model="findpwd.code">
+			</label>
+			<button ng-click="verify()" id="btnverify" class="btnverify" ng-disabled="findpwd.status">{{findpwd.caption}}</button>
+        </div>
+		<div class="item-block">
+            <button  class="btnLogin" ng-click="nextChangePwd()">
+                下一步
+            </button>
+        </div>
+	</div>
+</ion-view>

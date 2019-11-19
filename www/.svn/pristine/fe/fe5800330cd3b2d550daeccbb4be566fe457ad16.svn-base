@@ -1,0 +1,142 @@
+<ion-view view-title="征友条件">
+    <ion-nav-buttons side="left">
+        <a ng-click="navBack()">
+            <i class="icon ion-chevron-left nav_back_force"></i>
+        </a>
+    </ion-nav-buttons>
+    <ion-content class="search-content">
+
+        <ion-list class="list-search">
+            <ion-item class="item-anchor-right">
+                <h2>Ta的所在地</h2>
+                <a href ng-click="showLocationModal()">{{location}} <i class="icon ion-chevron-right icon-accessory"></i></a>
+            </ion-item>
+            <ion-item class="item-anchor-right">
+                <h2>Ta的年龄</h2>
+                <a href ng-click="showAgeModal()">{{age}} <i class="icon ion-chevron-right icon-accessory"></i></a>
+            </ion-item>
+            <ion-item class="item-anchor-right">
+                <h2>Ta的身高</h2>
+                <a href ng-click="showHeightModal()">{{height}} <i class="icon ion-chevron-right icon-accessory"></i></a>
+            </ion-item>
+        </ion-list>
+        <button class="btn-save-search-cond" ng-click="search()">保存</button>
+    </ion-content>
+    <script id="search-location.html" type="text/ng-template">
+        <ion-modal-view class="modal-location-cond search-cond">
+            <ion-header-bar>
+                <span class="title">所在地</span>
+            </ion-header-bar>
+            <ion-content>
+                <div class="ios-scroll-select">
+                    <div class="row row-no-padding">
+                        <div class="col col-34">
+                            <div class="draw-line"></div>
+                        </div>
+                        <div class="col col-25 text-center">
+                            <a href ng-click="upSelLocation()" class="arrow arrow-up"><i class="icon ion-chevron-up"></i></a>
+                            <p class="item-current">{{condLocation[selCurLocation].location}}</p>
+                            <p class="item-next">{{condLocation[nextCurLocation].location}}</p>
+                            <a href ng-click="downSelLocation()" class="arrow arrow-down"><i class="icon ion-chevron-down"></i></a>
+                        </div>
+                        <div class="col col-35">
+                            <div class="scroll-select-label">
+                                <div class="line"></div>
+                                <span>省</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="modal-search-cond-save-btn" ng-click="hideLocationModal()">确定</button>
+                </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+    <script id="search-age.html" type="text/ng-template">
+        <ion-modal-view class="modal-location-cond search-cond">
+            <ion-header-bar>
+                <span class="title">年龄</span>
+            </ion-header-bar>
+            <ion-content class="overflow-hide">
+                <div class="ios-scroll-select">
+                    <div class="row row-no-padding">
+                        <div class="col-20">
+                            <div class="draw-line"></div>
+                        </div>
+                        <div class="col col-20 text-center">
+                            <a href ng-click="upLowAge()" class="arrow arrow-up"><i class="icon ion-chevron-up"></i></a>
+                            <p ng-if = "selCurLowAge == 0" class="item-current">不限</p>
+                            <p ng-if = "selCurLowAge != 0" class="item-current">{{selCurLowAge}}</p>
+                            <p ng-if = "selCurLowAge == 0" class="item-next">18</p>
+                            <p ng-if = "selCurLowAge == 99" class="item-next">不限</p>
+                            <p ng-if = "selCurLowAge != 0 && selCurLowAge !=99" class="item-next">{{(selCurLowAge + 1) % 100}}</p>
+                            <a href ng-click="downLowAge()" class="arrow arrow-down"><i class="icon ion-chevron-down"></i></a>
+                        </div>
+                        <div class="col col-20">
+                            <div class="scroll-select-label">
+                                <div class="line lineintwo"></div>
+                                <span>岁</span>
+                            </div>
+                        </div>
+                        <div class="col col-20 text-center">
+                            <a href ng-click="upHighAge()" class="arrow arrow-up"><i class="icon ion-chevron-up"></i></a>
+                            <p ng-if = "selCurHighAge == 0" class="item-current">不限</p>
+                            <p ng-if = "selCurHighAge != 0" class="item-current">{{selCurHighAge}}</p>
+                            <p ng-if = "selCurHighAge == 0" class="item-next">18</p>
+                            <p ng-if = "selCurHighAge == 99" class="item-next">不限</p>
+                            <p ng-if = "selCurHighAge != 0 && selCurHighAge !=99" class="item-next">{{(selCurHighAge + 1) % 100}}</p>
+                            <a href ng-click="downHighAge()" class="arrow arrow-down"><i class="icon ion-chevron-down"></i></a>
+                        </div>
+                        <div class="col col-20">
+                            <div class="scroll-select-label">
+                                <div class="line lineintwo"></div>
+                                <span>岁</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="modal-search-cond-save-btn" ng-click="hideAgeModal()">确定</button>
+                </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+    <script id="search-height.html" type="text/ng-template">
+        <ion-modal-view class="modal-location-cond search-cond">
+            <ion-header-bar>
+                <span class="title">身高</span>
+            </ion-header-bar>
+            <ion-content class="overflow-hide">
+                <div class="ios-scroll-select">
+                    <div class="row row-no-padding">
+                        <div class="col-20">
+                            <div class="draw-line"></div>
+                        </div>
+                        <div class="col col-20 text-center">
+                            <a href ng-click="upLowHeight()" class="arrow arrow-up"><i class="icon ion-chevron-up"></i></a>
+                            <p class="item-current">{{condHeight[curSelLowHeight].height}}</p>
+                            <p class="item-next">{{condHeight[nextLowHeight].height}}</p>
+                            <a href ng-click="downLowHeight()" class="arrow arrow-down"><i class="icon ion-chevron-down"></i></a>
+                        </div>
+                        <div class="col col-20">
+                            <div class="scroll-select-label">
+                                <div class="line lineintwo_smaller"></div>
+                                <span>cm</span>
+                            </div>
+                        </div>
+                        <div class="col col-20 text-center">
+                            <a href ng-click="upHighHeight()" class="arrow arrow-up"><i class="icon ion-chevron-up"></i></a>
+                            <p class="item-current">{{condHeight[curSelHighHeight].height}}</p>
+                            <p class="item-next">{{condHeight[nextHighHeight].height}}</p>
+                            <a href ng-click="downHighHeight()" class="arrow arrow-down"><i class="icon ion-chevron-down"></i></a>
+                        </div>
+                        <div class="col col-20">
+                            <div class="scroll-select-label">
+                                <div class="line lineintwo_smaller"></div>
+                                <span>cm</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="modal-search-cond-save-btn" ng-click="hideHeightModal()">确定</button>
+                </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+</ion-view>

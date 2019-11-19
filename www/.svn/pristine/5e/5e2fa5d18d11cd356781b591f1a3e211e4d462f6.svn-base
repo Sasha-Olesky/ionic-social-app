@@ -1,0 +1,263 @@
+angular.module('starter.login', [])
+.controller('loginCtrl', function($scope, $state, $ionicPlatform, Session, APIManager, ionicToast) {
+
+    $scope.$on('$ionicView.beforeEnter', function() {
+        $scope.$emit('child', true);
+    });	
+	
+	$scope.user = {
+		phone : '',
+		password : '',
+		hasValue : true
+	};
+	
+    $scope.reset_password = function() {        
+        $scope.user.password = null;
+    };
+
+    $scope.$watch('user.password',function (oldValue, newValue) {
+        if(oldValue){
+            $scope.user.hasValue = false;
+        }else{
+            $scope.user.hasValue = true;
+        }
+    });
+	
+	$scope.login = function(){
+		if ($scope.user.phone == '') {
+			ionicToast.show('请输入您的手机号码。', 'middle', false, 1500);	
+			return false;
+		}
+		if ($scope.user.password == '') {
+			ionicToast.show('请输入密码。', 'middle', false, 1500);			
+			return false;
+		}		
+		var url = 'login';
+		var data = {phone:$scope.user.phone, password:$scope.user.password}
+		
+		APIManager.get(url, data).then(function(res) {
+			if (res.data.id == '0' || res.data.id == '-1') {
+				ionicToast.show(res.data.message, 'middle', false, 1500);	
+			} else {
+				Session.setSession('user', res.data);
+				$state.go('tab.home');
+			}
+		});
+    };
+	
+	$scope.new_user = Session.getSession('new_user')	
+	if (!$scope.new_user) {
+		$scope.new_user = {
+			phone : '', password : '', gender : 1, birthday : '', job_id : 0, edu_id : 0, wage_id : 0, hobby: [], hobby_id : '', character_id : 0, stature_id : 0
+		};
+	}	
+	
+	// on page of register job, getting jobs
+	if ($state.current.name == 'reg_job'){
+		var url = 'get_fields';
+		var data = {tbname:'jobs'};
+		APIManager.get(url, data).then(function (res){
+			$scope.jobs = res.data.fields;				
+		});
+	}
+	// on page of register_education, getting edus
+	if ($state.current.name == 'reg_education'){
+		var url = 'get_fields';
+		var data = {tbname:'edus'};
+		APIManager.get(url, data).then(function (res){
+			$scope.edus = res.data.fields;				
+		});
+	}
+	// on page of register_wage, getting wages
+	if ($state.current.name == 'reg_wage'){
+		var url = 'get_fields';
+		var data = {tbname:'wages'};
+		APIManager.get(url, data).then(function (res){
+			$scope.wages = res.data.fields;				
+		});
+	}
+	// on page of register_hobby, getting hobbies
+	if ($state.current.name == 'reg_hobby'){
+		var url = 'get_fields';
+		var data = {tbname:'hobbies'};
+		APIManager.get(url, data).then(function (res){
+			$scope.hobbies = res.data.fields;
+			if ($scope.new_user.hobby.length == 0) {
+				var p = [];
+				for(var i=0; i<$scope.hobbies.length; i++) {
+					p.push({id:$scope.hobbies[i].id, checked:false});
+				}
+				$scope.new_user.hobby = p;
+			}
+			var p = [];
+			for(var i=0; i<$scope.hobbies.length;i++) {
+				p.push(isChecked(i));
+			}
+			$scope.cur_checked = p;
+		});
+	}
+	// on page of register_character, getting characters
+	if ($state.current.name == 'reg_character'){
+		var url = 'get_fields';
+		var data = {tbname:'characters'};
+		APIManager.get(url, data).then(function (res){
+			$scope.characters = res.data.fields;
+		});
+	}
+	// on page of register_stature, getting statures
+	if ($state.current.name == 'reg_stature'){
+		var url = 'get_fields';
+		var data = {tbname:'statures'};
+		APIManager.get(url, data).then(function (res){
+			$scope.statures = res.data.fields;
+		});
+	}
+	
+	$scope.register = function() {
+		Session.clearSession('new_user');		
+		$state.go('register');
+	};
+	
+	$scope.nextToPassword = function(){
+		if ($scope.new_user.phone == '') {
+			ionicToast.show('请输入您的手机号码。', 'middle', false, 1500);			
+			return false;
+		} else {
+			var url = 'check_phone';
+			var data = {phone:$scope.new_user.phone};
+			APIManager.get(url, data).then(function (res){
+				if (res.data.code != '0') {
+					ionicToast.show('该手机号码已被使用。', 'middle', false, 1500);
+				} else {
+					$scope.new_user.password = '';
+					Session.setSession('new_user', $scope.new_user);
+					$state.go('reg_password');
+				}
+			});
+		}
+		
+    };
+	
+	$scope.nextToGender = function(){
+		if ($scope.new_user.password == '') {
+			ionicToast.show('请输入密码。', 'middle', false, 1500);			
+			return false;
+		} else if ($scope.new_user.password.length < 4) {
+			ionicToast.show('请输入密码至少4个字符。', 'middle', false, 1500);			
+			return false;
+		}
+		$scope.new_user.gender = 1;
+        Session.setSession('new_user', $scope.new_user);
+        $state.go('reg_gender');
+    };
+	
+	$scope.nextToBirthday = function(){
+		$scope.new_user.birthday = '';
+        Session.setSession('new_user', $scope.new_user);
+        $state.go('reg_birthday');
+    };	
+	 
+    $scope.nextToJob = function(is_skip){
+		if (!is_skip) {
+			$scope.new_user.job_id = 0;
+			Session.setSession('new_user', $scope.new_user);
+		}
+        $state.go('reg_job');
+    };
+   
+    $scope.nextToEducation = function(is_skip){
+		if (!is_skip) {
+			$scope.new_user.edu_id = 0;
+			Session.setSession('new_user', $scope.new_user);
+		}
+        $state.go('reg_education');
+    };
+	
+	$scope.nextToWage = function(is_skip){
+		if (!is_skip) {
+			$scope.new_user.wage_id = 0;
+			Session.setSession('new_user', $scope.new_user);
+		}
+        $state.go('reg_wage');
+    };
+	
+	$scope.nextToHobby = function(is_skip){
+		if (!is_skip) {
+			$scope.new_user.hobby = [];
+			Session.setSession('new_user', $scope.new_user);
+		}
+        $state.go('reg_hobby');
+    };
+	
+	$scope.selHobby = function(i) {
+		$scope.new_user.hobby[i].checked = !$scope.new_user.hobby[i].checked;
+		$scope.cur_checked[i] = isChecked(i);
+	};
+	
+	function isChecked(i) {
+		var id = $scope.new_user.hobby[i].id;
+		var checked = false;
+		for(var j=0; j<$scope.new_user.hobby.length; j++) {
+			if (id == $scope.new_user.hobby[j].id) {
+				checked = $scope.new_user.hobby[j].checked;
+				break;
+			}
+		}
+		return checked;
+	}
+	
+	$scope.nextToCharacter = function(is_skip){
+		if (!is_skip) {
+			$scope.new_user.character_id = 0;
+			Session.setSession('new_user', $scope.new_user);
+		}
+        $state.go('reg_character');
+    };
+	
+	 
+    $scope.nextToStature = function(is_skip){
+		if (!is_skip) {
+			$scope.new_user.stature_id = 0;
+			Session.setSession('new_user', $scope.new_user);
+		}
+        $state.go('reg_stature');
+    };
+	
+	$scope.nextToLogin = function(is_skip){
+		if (!is_skip) {
+			Session.setSession('new_user', $scope.new_user);
+		}
+		new_user_register();
+        $state.go('login');
+    };
+    
+	function new_user_register() {
+		var user = $scope.new_user;
+		var h = '';
+		if (user.hobby.length > 0) {
+			for(var i=0; i<user.hobby.length; i++) {
+				if (user.hobby[i].checked) {
+					if (h != '') h += ',';
+					h += user.hobby[i].id;
+				}
+			}
+			user.hobby_id = h;
+		}
+		delete user.hobby;
+		Session.clearSession('new_user');
+		var url = 'register';
+		APIManager.post(url, user).then(function (res){
+			if (res.data.code == 0) {
+				ionicToast.show('失败注册。', 'middle', false, 1500);
+			} else if (res.data.code == -1) {
+				ionicToast.show('该手机号码已被使用。', 'middle', false, 1500);
+			} else {
+				ionicToast.show('成功注册。', 'middle', false, 1500);
+			}			
+		});
+	}
+	
+	$ionicPlatform.registerBackButtonAction(function () {			
+		Session.exitConfirm($scope);		
+	},100);    
+});

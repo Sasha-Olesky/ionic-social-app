@@ -1,0 +1,20 @@
+<ion-view view-title="我的收信">
+    <ion-content>
+        <ion-scroll ng-style="{maxHeight:max_list_height}">
+            <ion-item class="item-message" ng-repeat="item in sent_items" type="item-text-wrap">
+               
+				<div class="row " ng-click="chatWith(item.from_userid,item,item.islike)">
+                    <div class="col col-80 item-messagewarp item-thumbnail-left">
+                        <img ng-src="{{item.photo}}" />
+                        <h2>{{item.username}}</h2>
+                        <p>{{item.message ? item.message : '快开始聊天吧'}}</p>
+                    </div>
+                    <div class="col col-20 text-right">
+                        <span class="badge badge-assertive" ng-if="item.count>0" style="top:0">{{item.count}}</span>
+                        <span class="span-time">{{item.time ? item.time : item.reply_date}}</span>
+                    </div>
+                </div>
+            </ion-item>
+        </ion-scroll>
+    </ion-content>
+</ion-view>

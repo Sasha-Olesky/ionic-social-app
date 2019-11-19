@@ -1,0 +1,16 @@
+﻿<div class="product-popup">
+	<div class="product-info">
+		<h3>{{product.data.name}}</h3>
+		<img ng-src="{{product.data.photo}}" class="img-responsive"/>
+		<div class="quantity">
+			<button class="minus-button" ng-click="decreaseQuantity()"><i class="icon ion-minus"></i></button>
+			<input type="text" ng-model="product.quantity"/>
+			<button class="plus-button" ng-click="increaseQuantity()"><i class="icon ion-plus"></i></button>
+		</div>
+	</div>
+	<p class="product-gold"><span>{{product.data.integral*product.quantity}}</span><img src="img/personal_space/ic_gold.png"/></p>
+	<div class="buttons">
+		<button ng-click="product_cancel()">取消</button>
+		<button ng-click="product_confirm()">赠送</button>
+	</div>
+</div>

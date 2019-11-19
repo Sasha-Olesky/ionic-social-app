@@ -1,0 +1,9 @@
+<ion-view class="gifts">  
+  <ion-content>    
+	<ion-scroll style="max-height:{{max_list_height2}}px">
+		<ion-item class="item-thumbnail-left" ng-repeat="item in given_items" type="item-text-wrap">
+			<img ng-src="{{item.photo}}"/>
+		</ion-item>
+	</ion-scroll>
+  </ion-content>
+</ion-view>

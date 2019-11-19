@@ -1,0 +1,41 @@
+<ion-header-bar class="background-positive">
+	<button class="button button-icon ion-ios-arrow-back" ng-click="go_back()"></button>	
+	<h1 class="title account-title" ng-class="marginleft">购买VIP</h1>
+</ion-header-bar>
+<ion-view class="membership" title="购买VIP">  
+  <ion-content>    
+	<ion-scroll>
+		<div class="membership_buttons">
+			<button class="button background-positive button-positive" ng-click="goPrivilege(30)">VIP会员30天，￥98.00</button>
+			<button class="button background-positive button-positive" ng-click="goPrivilege(180)">VIP会员180天，￥198.00</button>
+			<button class="button background-positive button-positive vip" ng-click="goPrivilege(365)">VIP会员365天，￥398.00</button>
+		</div>
+		<h1>会员特权如下</h1>
+		<ion-item class="item-thumbnail-left">
+			<img src="img/account/ic_camera.png"/>
+			<h2>游戏视频</h2>
+			<p>无限制和所有人进行互动游戏和视频聊天</p>
+		</ion-item>
+		<ion-item class="item-thumbnail-left">
+			<img src="img/account/ic_group.png"/>
+			<h2>查看访客</h2>
+			<p>无限制查看所有访客的资料</p>
+		</ion-item>
+		<ion-item class="item-thumbnail-left">
+			<img src="img/account/ic_heart.png"/>
+			<h2>查看喜欢</h2>
+			<p>无限制查看所有喜欢人的资料</p>
+		</ion-item>
+		<ion-item class="item-thumbnail-left">
+			<img src="img/account/ic_envelope.png"/>
+			<h2>私信</h2>
+			<p>无限制收发私人信件</p>
+		</ion-item>
+		<ion-item class="item-thumbnail-left">
+			<img src="img/account/ic_timer.png"/>
+			<h2>优先审核</h2>
+			<p>头像优先审核，无需等待</p>
+		</ion-item>
+	<ion-scroll>
+  </ion-content>
+</ion-view>

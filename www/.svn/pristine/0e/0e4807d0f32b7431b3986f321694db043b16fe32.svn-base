@@ -1,0 +1,53 @@
+<ion-view view-title="动态">
+    <ion-nav-buttons side="left">
+        <a ng-click="doSomething()">
+            <img src="img/home/bell.png">
+        </a>
+    </ion-nav-buttons>
+    <ion-content class="has-both-tab">
+            <div class="list card card-no-margin dynamic-card" ng-repeat = "post in posts" auto-collpase-when="collapse[$index]" >
+                <div class="row">
+                    <div class="item item-avatar col-80">
+                        <img ng-src="{{post.photo}}">
+                        <h2>「 {{post.username}}」</h2>
+                        <p>{{post.reg_date}}</p>
+                    </div>
+                    <span class="col-20 text-right drop-card-list" ng-if = "collapse[$index] == false" ><i class="icon ion-chevron-up" ng-click="colloseUp($index)"></i></span>
+                    <span class="col-20 text-right drop-card-list" ng-if = "collapse[$index] == true" ><i class="icon ion-chevron-down" ng-click="colloseDown($index)"></i></span>
+                </div>
+                <p class="descrption">{{post.content}}</p>
+                <div class="item item-body">
+                    <div class="row images" ng-show="post.images?true:false">
+                        <div ng-class="post.image_class" ng-repeat="img in post.images">
+                            <img ng-src="{{img}}" />
+                        </div>
+                    </div>
+                    <p class="location"><i class="icon ion-female"></i>{{post.address}}</p>
+                    <div class="row btn-section">
+                        <div class="col-offset-10 col-90 text-right">
+                            <ion-button class="rounded"><img src="img/dynamics/description.png" ng-click="activeComment($index)"> </ion-button>
+                            <ion-button ng-if = "post.is_like == false" class="rounded padding-right" ng-click="likePost($index,post.id)"><img src="img/dynamics/like.png"></ion-button>
+                            <ion-button ng-if = "post.is_like == true" class="rounded padding-right" ng-click="dislikePost($index,post.id)"><img src="img/dynamics/like_click_on.png"></ion-button>
+                        </div>
+                    </div>
+                    <div class="row icon-section">
+                        <img ng-if="post.like_users.length>0" ng-src="img/dynamics/like_on.png">
+                        <img ng-repeat = "user in post.like_users" ng-src="{{user.photo}}">
+                    </div>
+                    <div class="row leave_comment">
+                        <input type="text" class="input-comment" ng-model="post.comment" placeholder="我来说两句" focus-me="commentfocus[$index]">
+                        <button ng-click="send_comment(post.id, $index)"><i class="icon ion-paper-airplane"></i></button>
+                    </div>
+                    <div class="row">
+                        <div class="comments">
+                            <p ng-repeat = "blog in post.comments"><span>{{blog.username}}:</span>{{blog.comment}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <ion-infinite-scroll ng-if="more"
+                             on-infinite="loadMore()"
+                             distance="2%">
+        </ion-infinite-scroll>
+    </ion-content>
+</ion-view>

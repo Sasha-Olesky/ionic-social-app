@@ -1,0 +1,15 @@
+<div class="gallery-view home-gallery-view">
+  <div class="row" ng-repeat="item in items track by $index" ion-row-height>
+    <div ng-repeat="user in item track by $index" class="col col-{{responsiveGrid}} image-container home-gallery-item">
+		
+		<img ion-image-scale image-lazy-src="{{user.photo}}" ng-click="goPersonal(user.id)" image-lazy-loader="ios">
+		
+		<a class='like' ng-click="likeTa(user)" image-lazy-src="img/home/{{user.islike == 1 && 'like_on.png' || 'like.png'}}" image-lazy-background-image="true"></a>
+		<div class="user-info">
+			<span class="username">{{user.username}}</span>
+			<span class="follows">{{user.likes}}</span>
+		</div>
+    </div>
+  </div>
+  <div ion-slider></div>
+</div>

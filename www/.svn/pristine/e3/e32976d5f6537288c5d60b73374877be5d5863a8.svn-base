@@ -1,0 +1,25 @@
+<ion-header-bar class="background-positive">
+	<button class="button button-icon ion-ios-arrow-back" ng-click="go_state('tab.account')"></button>	
+	<h1 class="title account-title" ng-class="marginleft">昵称, 照片</h1>
+</ion-header-bar>
+<ion-view view-title="昵称, 照片">
+    <ion-content>
+        <div class="regContentView text-center">
+            <h2>什么是您的昵称？</h2>            
+            <input type="text" id="nickname" ng-model="user.username" placeholder="昵称" class="text-center">
+            <h2>请选择您的照片</h2>
+			<div class="photo">
+				<div class="photo-item" ng-hide="user.photo==''?true:false">
+					<img image-lazy-src="{{user.photo}}" image-lazy-loader="ios"/>
+					<a ng-click="user.photo=''" class="close"><img src="img/public/close.png"></a>
+				</div>				
+				<ion-button class="btn_add_photo" ng-click="takePhoto()" ng-show="user.photo==''?true:false">
+					<img src="img/public/plus.png">
+				</ion-button>
+			</div>
+            <div class="button-save">
+				<button class="button background-positive button-positive" ng-click="save_photo()">保存</button>
+			</div>
+        </div>
+    </ion-content>
+</ion-view>

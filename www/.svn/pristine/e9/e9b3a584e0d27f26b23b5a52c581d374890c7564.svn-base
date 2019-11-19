@@ -1,0 +1,256 @@
+angular.module('starter.personal', [])
+
+.controller('personalCtrl', function($scope, $state, $window, $ionicPopup, $ionicHistory, rOnline, ionicToast){
+	$scope.$on('$ionicView.beforeEnter', function() {
+		$scope.$emit('child', false);
+	});
+	$scope.$on('$stateChangeStart', function() {
+		$scope.$emit('child', false);		
+	});
+	$scope.go_state = function(state) {				
+		$state.go(state);
+	};
+	$scope.parent_height = $window.innerHeight + 'px';
+	$scope.id = $state.params.id;
+	var users = rOnline.all();  
+	$scope.personal = users[$scope.id];
+	$scope.personal.photo_large = "url('img/uploads/" + users[$scope.id].photo + "')";
+	
+	$scope.personal.dynamics = [
+		{
+			photo:'img/account/tidings_photo.jpg',
+			name:'「哭&谁疼」',
+			gender : 0,
+			ion:'ion-female',
+			time:'21:22:50',
+			description:"<p>债主大亨由此产生债主大亨由此产生债主大亨由此产生债主大亨由此产生债主大亨由此产生债主大亨由此产生债主大亨由此产生债主大亨由此产生。</p>",
+			like:[{src:'img/uploads/photo1.jpg'},{src:'img/uploads/photo2.jpg'},{src:'img/uploads/photo3.jpg'},{src:'img/uploads/photo4.jpg'}],
+			search:"<p><span>查看全部评论</span></p><p><span>猫猫 : </span>回不了</p><p><span>Akira : </span>话</p><p><span>保持90度％微笑 : </span>我不能回复你的信息，抱歉</p><p><span>默认模式 : </span>回不了信</p><p><span>爱相随 : </span>回不了话</p>"
+		},
+		{
+			photo:'img/uploads/photo12.jpg',
+			name:'「哭&谁疼」',
+			gender : 0,
+			ion:'ion-male',
+			time:'21:22:50',
+			description:"<p>债主大亨由此产生债主大亨由此产生债主大亨由此产生债主大亨由此产生债主大亨由此产生债主大亨由此产生债主大亨由此产生债主大亨由此产生。</p>",
+			like:[{src:'img/uploads/photo5.jpg'},{src:'img/uploads/photo6.jpg'},{src:'img/uploads/photo7.jpg'},{src:'img/uploads/photo8.jpg'}],
+			search:"<p><span>查看全部评论</span></p><p><span>猫猫 : </span>回不了</p><p><span>Akira : </span>话</p><p><span>保持90度％微笑 : </span>我不能回复你的信息，抱歉</p><p><span>默认模式 : </span>回不了信</p><p><span>爱相随 : </span>回不了话</p>"
+		}
+	];
+	$scope.personal.monologue = "m1";
+	$scope.personal.dinformations = [
+		{
+			field : 'constallation',
+			label : '星座',
+			value : '水瓶座',		
+		},{
+			field : 'height',
+			label : '身高',
+			value : '180cm',	
+		},{
+			field : 'weight',
+			label : '体重',
+			value : '51kg',		
+		},{
+			field : 'job',
+			label : '职业',
+			value : '在校学生',		
+		},{
+			field : 'income',
+			label : '收入',
+			value : '2000-5000',		
+		},{
+			field : 'child',
+			label : '是否想要小孩',
+			value : '大专',		
+		},{
+			field : 'edu_background',
+			label : '学历',
+			value : '已购房',		
+		},{
+			field : 'character',
+			label : '个性特征',
+			value : '要小孩',		
+		},{
+			field : 'is_house',
+			label : '是否有房',
+			value : '可爱',		
+		},{
+			field : 'habbit',
+			label : '兴趣爱好',
+			value : '烹饪',		
+		},{
+			field : 'other_home',
+			label : '是否接受异地恋',
+			value : '能',		
+		},{
+			field : 'prefer',
+			label : '喜欢的异性类型',
+			value : '善解人意',		
+		},		
+	];
+	$scope.personal.pconditions = [
+		{
+			field : 'height',
+			label : '身高',
+			value : '不限',		
+		},{
+			field : 'income',
+			label : '收入',
+			value : '不限2',		
+		},{
+			field : 'address',
+			label : '居住地',
+			value : '不限-不限',		
+		},{
+			field : 'edu_background',
+			label : '最低学历',
+			value : '不限-不限2',		
+		},{
+			field : 'age',
+			label : '年龄范围',
+			value : '不限-不限2',		
+		}
+	];
+	$scope.personal.qq = {type:'password', value:'123456789'};
+	$scope.personal.phone = {type:'password', value:'3564879185'};
+	$scope.personal.is_vip = false;
+	
+	$scope.toggleQQ = function() {		
+		if ($scope.personal.qq.type == 'password') {
+			$scope.personal.qq.type = 'text';
+		} else {
+			$scope.personal.qq.type = 'password';
+		}
+	};
+	$scope.togglePhone = function() {		
+		if ($scope.personal.phone.type == 'password') {
+			$scope.personal.phone.type = 'text';
+		} else {
+			$scope.personal.phone.type = 'password';
+		}
+	};
+	var myVip, confirm_type;
+	$scope.vipConfirm = function(ctype) {
+		confirm_type = ctype;
+		if (!$scope.personal.is_vip) {
+			myVip = $ionicPopup.show({	
+				cssClass : 'vip-popup-css',
+				templateUrl: 'templates/personal_space/vip_confirm.html',
+				scope: $scope
+			});
+		} else {
+			if (confirm_type == 2) {
+				$state.go('personal_call_to_meet', {id:$scope.id});
+			} else if (confirm_type == 3) {
+				$state.go('video_chat', {id:$scope.id});
+			} else if (confirm_type == 4) {
+				$state.go('funny_game', {id:$scope.id});
+			}
+		}		
+	};
+	$scope.vip_cancel = function() {
+		myVip.close();
+	};
+	$scope.vip_confirm = function() {
+		$scope.personal.is_vip = true;
+		myVip.close();
+	};
+	$scope.personal.call_items = [
+		{photo:'img/account/follow_photo1.jpg',name:'珊珊', message:'How are you going?', time:'12:45'},
+		{photo:'img/account/follow_photo2.jpg',name:'GXY', message:'How are you going?', time:'12:45'},
+		{photo:'img/account/follow_photo3.jpg',name:'clear',  message:'How are you going?', time:'12:45'},
+		{photo:'img/account/follow_photo4.jpg',name:'下雨了',  message:'How are you going?', time:'12:45'},
+		{photo:'img/account/follow_photo5.jpg',name:'小清新',  message:'How are you going?', time:'12:45'},
+		{photo:'img/account/follow_photo5.jpg',name:'小清新',  message:'How are you going?', time:'12:45'},
+		{photo:'img/account/follow_photo6.jpg',name:'QQWE',  message:'How are you going?', time:'12:45'}
+	];
+	$scope.go_present_shop = function() {
+		$state.go('present_shop', {id:$scope.id});
+	}
+	$scope.products = [
+		{name:'product1', photo:'img/product/product1.jpg', integral:100},
+		{name:'product2', photo:'img/product/product2.jpg', integral:160},
+		{name:'product3', photo:'img/product/product3.jpg', integral:150},
+		{name:'product4', photo:'img/product/product4.jpg', integral:10},
+		{name:'product5', photo:'img/product/product5.jpg', integral:100},
+		{name:'product6', photo:'img/product/product6.jpg', integral:10},
+		{name:'product7', photo:'img/product/product7.jpg', integral:10},
+		{name:'product8', photo:'img/product/product8.jpg', integral:100},
+		{name:'product9', photo:'img/product/product9.jpg', integral:14},
+		{name:'product10', photo:'img/product/product10.jpg', integral:100},
+		{name:'product11', photo:'img/product/product11.jpg', integral:20},
+		{name:'product12', photo:'img/product/product12.jpg', integral:100},
+		{name:'product13', photo:'img/product/product13.jpg', integral:10},
+		{name:'product14', photo:'img/product/product14.jpg', integral:100},
+		{name:'product15', photo:'img/product/product15.jpg', integral:30},
+		{name:'product16', photo:'img/product/product16.jpg', integral:10},
+		{name:'product17', photo:'img/product/product17.jpg', integral:10},
+		{name:'product18', photo:'img/product/product18.jpg', integral:200}
+	];
+	$scope.my_integral = '500';
+	$scope.maxScrollHeight = ($window.innerHeight - 110) + 'px';
+	$scope.buyConfirm = function() {
+		$state.go('buy_coins');
+	};
+	
+	$scope.product = {
+		quantity : 1,
+	};
+	var myProductConfirm;
+	$scope.goBuyProduct = function(pindex) {
+		$scope.product.quantity = 1;
+		$scope.product.data = $scope.products[pindex];
+		myProductConfirm = $ionicPopup.show({	
+			cssClass : 'product-popup-css',
+			templateUrl: 'templates/personal_space/buy_confirm.html',
+			scope: $scope
+		});
+	};
+	$scope.product_cancel = function() {
+		myProductConfirm.close();
+	};
+	$scope.product_confirm = function() {		
+		myProductConfirm.close();
+	};
+	$scope.increaseQuantity = function() {		
+		$scope.product.quantity++;
+	};
+	$scope.decreaseQuantity = function() {
+		$scope.product.quantity--;
+		if ($scope.product.quantity <= 0) $scope.product.quantity = 1;
+	};
+	$scope.play_game = function() {
+		$state.go('play_game', {id:$scope.id});
+	};
+	$scope.maxGameHeight = ($window.innerHeight - 180) + 'px';
+	$scope.video_chat = function() {
+		$state.go('video_chat', {id:$scope.id});
+	};
+	var myGameCancel, action_id;
+	$scope.cancelGame = function(a_id) {
+		action_id = a_id;
+		myGameCancel = $ionicPopup.show({	
+			cssClass : 'game-popup-css',
+			templateUrl: 'templates/personal_space/cancel_game.html',
+			scope: $scope
+		});
+	};
+	$scope.game_popup_cancel = function() {
+		myGameCancel.close();
+	};
+	$scope.game_cancel = function() {
+		myGameCancel.close();
+		if (action_id == 0) {
+			$ionicHistory.goBack();
+		} else if (action_id == 1) {
+			$state.go('present_shop', {id:$scope.id});
+		} else if (action_id == 3) {
+			$state.go('video_chat', {id:$scope.id});
+		}
+	};
+	$scope.followMe = function(){
+		ionicToast.show('Follow Successfully.', 'middle', false, 1500);
+	};
+});

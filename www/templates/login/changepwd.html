@@ -1,0 +1,27 @@
+﻿<ion-view hide-nav-bar="true" class="loginview">
+	<button class="button button-icon ion-ios-arrow-back back-login" ng-click="go_state('login')"></button>
+    <div class="login-warp">
+        <div class="item-block">
+          
+            <label class="item item-input">
+                <span class="input-label"><img src="img/login/ico-password.png" alt="用户名"></span>
+                <input type="password" maxlength="11" class="active-input" placeholder="输入密码" ng-model="changpwd.password">
+            </label>
+        </div>
+        <div class="item-block">
+            
+            <label class="item item-input">
+                <span class="input-label"><img src="img/login/ico-password.png" alt="密码"></span>
+                <input type="password" class="active-input" placeholder="确认密码" ng-model="changpwd.confirm" >
+            </label>
+
+        </div>
+        <div class="item-block">
+            <button class="btnLogin" ng-click="changepwd()">
+                确认
+            </button>
+        </div>
+           
+    </div>
+
+</ion-view>

@@ -1,0 +1,39 @@
+<ion-header-bar class="background-positive">
+	<button class="button button-icon ion-ios-arrow-back" ng-click="go_back()"></button>
+	<h1 class="title account-title" ng-class="marginleft">{{personal.username}}</h1>
+</ion-header-bar>
+<ion-view class="video-chat padding">  
+  <ion-content class="padding">    
+	<div class="video-screen">
+		<!-- <img src="img/personal_space/video_back.jpg" class="img-responsive"> -->
+		<video id="main_video" class="j-main_video_vid" autoplay>
+        </video>
+        <video id="localVideo" class="fw-video" style="display: none;" autoplay>
+        </video>
+
+        <!-- SOUNDS -->
+        <audio id="callingSignal" loop preload="auto">
+            <source src="audio/calling.ogg"></source>
+            <source src="audio/calling.mp3"></source>
+        </audio>
+
+        <audio id="ringtoneSignal" loop preload="auto">
+            <source src="audio/ringtone.ogg"></source>
+            <source src="audio/ringtone.mp3"></source>
+        </audio>
+
+        <audio id="endCallSignal" preload="auto">
+            <source src="audio/end_of_call.ogg"></source>
+            <source src="audio/end_of_call.mp3"></source>
+        </audio>
+        
+        <div class="callees j-callees" style="display: none;">
+        </div>
+	</div>
+	<div class="buttons">
+		<button class="button background-positive button-positive" ng-click="go_present_shop()">送礼物</button>
+		<button class="button background-positive button-positive">表情</button>
+	</div>
+  </ion-content>
+</ion-view>
+

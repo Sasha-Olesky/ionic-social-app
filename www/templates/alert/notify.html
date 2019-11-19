@@ -1,0 +1,28 @@
+<ion-view view-title="动态">    
+    <ion-content>
+        <div class="clearfix"></div>
+		<ion-refresher
+			pulling-text="重新加载..."
+			on-refresh="doNotifyRefresh()">
+		</ion-refresher>
+		
+        <ion-scroll>
+            <ion-item class="item-message" ng-repeat="item in notify_items" ng-click="chatWith(item.userid)" type="item-text-wrap">
+                <div class="row ">
+                    <div class="col col-80 item-messagewarp item-thumbnail-left">
+						<div class="avatar-photo">
+							<img photo-viewer image-lazy-src="{{item.photo}}" image-lazy-loader="ios">
+						</div>	
+                        <h2>{{item.username}}</h2>
+                        <p>{{item.action}}</p>
+                    </div>
+                    <div class="col col-20 text-right item-message-time">
+                        <p class="span-time">{{item.date}}</p>	
+                        <p class="span-time">{{item.time}}</p>
+                    </div>
+                </div>
+            </ion-item>
+        <ion-scroll>
+		
+    </ion-content>
+</ion-view>

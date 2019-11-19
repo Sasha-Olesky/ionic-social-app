@@ -1,0 +1,22 @@
+<ion-header-bar class="background-positive">
+	<div class="buttons">
+		<button class="button button-icon ion-ios-arrow-back"></button>
+	</div>
+	<h1 class="title account-title" ng-class="marginleft">个人资料</h1>
+</ion-header-bar>
+<ion-view class="personal-information">  
+  <ion-content>
+    <p class="sub-title">完善基本资料，即可无阻碍查看异性全部信息</p>
+	<ion-scroll style="max-height:{{max_list_height}}px">
+		<label class="item item-input item-select" ng-repeat="pcondition in pconditions">
+			<div class="input-label">{{pcondition.label}}</div>
+			<select ng-model="pcondition.value">
+				<option ng-repeat="item in pcondition.options" ng-value="item.value" value="{{item.value}}">{{item.label}}</option>
+			</select>
+		</label>
+	</ion-scroll>
+	<div class="button-save">
+		<button class="button background-positive button-positive">保存</button>
+	</div>
+  </ion-content>
+</ion-view>

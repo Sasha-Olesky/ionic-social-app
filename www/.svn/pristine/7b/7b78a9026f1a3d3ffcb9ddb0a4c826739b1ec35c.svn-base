@@ -1,0 +1,24 @@
+<ion-modal-view class="imageView">
+  <ion-header-bar class="headerView" ng-show="!hideAll">
+    <button class="button button-outline button-light close-btn" ng-click="closeModal()">关闭</button>
+  </ion-header-bar>
+    
+  <ion-content class="has-no-header" scroll="false">
+    <ion-slide class="listContainer">
+		<ion-scroll direction="xy"
+						locking="false" 
+						zooming="true"
+						min-zoom="1"
+						scrollbar-x="false"
+						scrollbar-y="false"
+						ion-slide-action
+						delegate-handle="photo-viewer"
+						overflow-scroll="false"
+						>
+			<div class="item item-image gallery-slide-view">
+				<img ng-src="{{sel_photo.src}}">
+			</div>
+		</ion-scroll>
+	</ion-slide>
+  </ion-content>
+</ion-modal-view>

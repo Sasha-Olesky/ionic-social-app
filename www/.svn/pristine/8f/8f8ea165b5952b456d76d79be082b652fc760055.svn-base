@@ -1,0 +1,24 @@
+<ion-header-bar align-title="center" class="background-positive">	
+	<div class="buttons">
+		<button class="button button-icon ion-ios-arrow-back" ng-click="$ionicGoBack()"></button>
+    </div>
+	<h1 class="title">选择性别</h1>		
+</ion-header-bar>
+<ion-view view-title="选择性别">
+    <ion-content>
+        <div class="regContentView text-center">
+            <h2>请问你的性别是？</h2>
+            <div class="row">
+                <div class="selectsex col col-offset-10 col-40">
+                    <img src="img/login/man.png" alt="男" ng-click="new_user.gender=1">
+                    <button ng-click="new_user.gender=1" ng-class="{1: 'on'}[new_user.gender]">男</button>
+                </div>
+                <div class="selectsex  col col-40">
+                    <img src="img/login/woman.png" alt="女" ng-click="new_user.gender=0">
+                    <button ng-click="new_user.gender=0" ng-class="{0: 'on'}[new_user.gender]">女</button>
+                </div>
+            </div>
+            <div class="warp-next-btn text-right"><button ng-click="nextToBirthday()">下一步</button></div>
+        </div>
+    </ion-content>
+</ion-view>

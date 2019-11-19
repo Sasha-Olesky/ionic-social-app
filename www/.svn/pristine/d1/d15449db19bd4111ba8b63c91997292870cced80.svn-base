@@ -1,0 +1,95 @@
+angular.module('starter.dynamics', [])
+
+.controller('dynamicsCtrl', function($scope, $rootScope, rOnline,Session,$ionicLoading,APIManager,ionicToast){
+	$scope.$on('$ionicView.beforeEnter', function() {
+		$scope.$emit('child', true);
+        $scope.pageNo = 1;
+        var url = 'get_posts';
+        var data = {userid:Session.getSession('user').id, page:$scope.pageNo};
+        $ionicLoading.show();
+        APIManager.get(url, data).then(function(res) {
+              $scope.posts = res.data.posts;
+              $scope.commentfocus = new Array($scope.posts.length);
+              $scope.collapse = new Array($scope.posts.length);
+              initCollapseValue();
+              $ionicLoading.hide();
+        });
+	});
+
+    initCollapseValue = function(){
+      for(i=0; i<$scope.collapse.length;i++)
+        $scope.collapse[i] = false;
+    };
+    $scope.likePost = function(index,post_id){
+      var url = "like_post";
+      var data={postid:post_id,userid:Session.getSession('user').id};
+      $ionicLoading.show();
+      APIManager.get(url, data).then(function(res) {
+            $scope.posts[index].like_users = res.data.like_users;
+            $scope.posts[index].is_like = true;
+            $ionicLoading.hide();
+      });
+    };
+    $scope.dislikePost = function(index,post_id){
+        var url = "dislike_post";
+        var data={postid:post_id,userid:Session.getSession('user').id};
+        $ionicLoading.show();
+        APIManager.get(url, data).then(function(res) {
+            $scope.posts[index].like_users = res.data.like_users;
+            $scope.posts[index].is_like = false;
+            $ionicLoading.hide();
+        });
+    };
+
+    $scope.send_comment = function(p_id, i) {
+        if ($scope.posts[i].comment == '') {
+            ionicToast.show('请输入内容', 'middle', false, 1500);
+            return false;
+        }
+        url = 'insert_comment';
+        alert(Session.getSession('user').id);
+        data = {postid: p_id, userid: Session.getSession('user').id, comment: $scope.posts[i].comment};
+        APIManager.post(url, data).then(function (res) {
+            $scope.posts[i].comments = res.data.comments;
+        });
+    };
+    $scope.activeComment = function(index){
+        $scope.commentfocus[index] = true;
+    };
+
+    $scope.colloseUp = function(index){
+        $scope.collapse[index] = true;
+    };
+    $scope.colloseDown = function(index){
+        $scope.collapse[index] = false;
+    };
+})
+.directive('focusMe', function($timeout) {
+    return {
+        scope: { trigger: '=focusMe' },
+        link: function(scope, element) {
+            scope.$watch('trigger', function(value) {
+                if(value === true) {
+                    $timeout(function() {
+                        element[0].focus();
+                        scope.trigger = false;
+                    });
+                }
+            });
+        }
+    };
+})
+.directive('autoCollpaseWhen', function() {
+    return {
+        scope: { trigger: '=autoCollpaseWhen' },
+        link: function(scope, element) {
+            scope.$watch('trigger', function(value) {
+                if(value === true){
+                    element.css('height','111px');
+                }else{
+                    element.css('height','100%');
+                }
+            });
+        }
+    }
+});

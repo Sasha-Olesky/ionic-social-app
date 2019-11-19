@@ -1,0 +1,45 @@
+<ion-header-bar class="background-positive">	
+	<button class="button button-icon ion-ios-arrow-back" ng-click="go_back()"></button>
+	<h1 class="title account-title" ng-class="marginleft">积分商城</h1>
+</ion-header-bar>
+<ion-view class="product_detail">  
+  <ion-content>	
+	<div class="cur_integral">U币：<span class="assertive">{{user.gold_coins}}</span></div>
+	<ion-scroll style="max-height:{{max_list_height2}}px">		
+		<div ng-show="product.photo_detail?true:false"><img class="img-responsive" src="{{product.photo_detail}}"/></div>
+		<div ng-show="product.summary?true:false">
+			<p class="detail-title">商品简介：</p>
+			<div class="detail-text" ng-bind-html="product.summary"></div>			
+		</div>
+		<div ng-show="product.usage?true:false">
+			<p class="detail-title">使用范围：</p>
+			<div class="detail-text" ng-bind-html="product.usage"></div>
+		</div>
+		<div ng-show="product.period?true:false">
+			<p class="detail-title">使用有效期至：</p>
+			<div class="detail-text" ng-bind-html="product.period"></div>
+		</div>
+		<div ng-show="product.exchange?true:false">
+			<p class="detail-title">兑换流程：</p>
+			<div class="detail-text" ng-bind-html="product.exchange"></div>
+		</div>
+		<div ng-show="product.caution?true:false">
+			<p class="detail-title">注意事项：</p>
+			<div class="detail-text" ng-bind-html="product.caution"></div>
+		</div>
+		<div ng-show="product.contact?true:false">
+			<p class="detail-title">客服电话：</p>
+			<div class="detail-text" ng-bind-html="product.contact"></div>
+		</div>
+		<div ng-show="product.shop?true:false">
+			<p class="detail-title">商家简介：</p>
+			<div class="detail-text" ng-bind-html="product.shop"></div>
+			<div class="shop-photo" ng-show="product.shop_photo?true:false"><img class="img-responsive" src="{{product.shop_photo}}"/></div>
+		</div>		
+	</ion-scroll>
+	<div class="buy-product">
+		<p>单价：<span>{{product.integral}}币</span></p>
+		<button class="background-positive" ng-click="buyConfirm()">立即兑换</button>
+	</div>
+  </ion-content>
+</ion-view>

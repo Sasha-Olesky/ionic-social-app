@@ -1,0 +1,66 @@
+﻿<ion-view view-title="个人中心">
+	<ion-content ng-style="{top:'0px',backgroundColor:'#eaeaea'}">
+		<div class="loading" ng-show="loading"><img src="img/tab/loading.gif"/></div>
+		<ion-list> 
+			<ion-item class="top-photo">
+				<button class="sign" ng-click="signConfirm()">签到</button>
+				<img ng-src="{{user.photo}}"/>
+				<h3 class="light">{{user.username}}</h3>
+				<span class="light">我的U币：<span class="assertive">{{user.gold_coins}}颗</span></span><br>
+				<button class="money" ng-click="go_state('buy_coins')">购买U币</button>
+			</ion-item>
+			<ion-item class="button-group">
+				<div class="button-bar">
+					<a class="button button-clear button-light" href="#/update_membership">
+						<img src="img/account/ic_update_membership.png"><br>升级会员
+					</a>
+					<a class="button button-clear button-light" href="#/personal_information">
+						<img src="img/account/ic_personal_info.png"><br>个人资料
+					</a>
+					<a class="button button-clear button-light" href="#/account_dynamics">
+						<img src="img/account/ic_my_tidings.png"><br>我的动态
+					</a>
+					<a class="button button-clear button-light" href="#/integral_shop">
+						<img src="img/account/ic_integral_shop.png"><br>积分商城
+					</a>
+				</div>
+			</ion-item>			
+			<p class="sub-title">谁看了我</p>			
+			<ion-item class="item item-list-detail item-button-left item-button-right custom-image-slider">
+				<button class="button icon-right ion-chevron-left button-clear button-stable" ng-click="sleft()"></button>			
+				<ion-scroll direction="x" scrollbar-x="false" overflow-scroll="false" class="img-slider">
+					<img ng-repeat="visitor in visitors" ng-src="{{visitor.photo}}" ng-click="go_personal(visitor.id)" class="image-list-thumb"/>
+				</ion-scroll>			
+				<button class="button icon-left ion-chevron-right button-clear button-stable" ng-click="sright()"></button>
+			</ion-item>
+			<ion-item class="item-menu item-icon-right item-thumbnail-left" type="item-text-wrap" href="#/tab/my_gifts">
+				<img src="img/account/ic_received_gift.png">
+				<h2>收到礼物</h2>	
+				<i class="icon ion-chevron-right icon-accessory"></i>
+			</ion-item>
+			<ion-item class="item-menu item-icon-right item-thumbnail-left" type="item-text-wrap" href="#/tab/my_follows">
+				<img src="img/account/ic_my_follows.png">
+				<h2>我的关注</h2>	
+				<i class="icon ion-chevron-right icon-accessory"></i>
+			</ion-item>
+			<ion-item class="item-menu item-icon-right item-thumbnail-left" type="item-text-wrap" href="#/tab/call_to_meet">
+				<img src="img/account/ic_call_to_meet.png">
+				<h2>申请见面</h2>	
+				<i class="icon ion-chevron-right icon-accessory"></i>
+			</ion-item>
+			<ion-item class="item-menu item-icon-right item-thumbnail-left" type="item-text-wrap" href="#/tab/agree">
+				<img src="img/account/ic_agree_to_meet.png">
+				<h2>同意见面</h2>	
+				<i class="icon ion-chevron-right icon-accessory"></i>
+			</ion-item>
+			<ion-item class="item-menu item-thumbnail-left" type="item-text-wrap" href="#/tab/settings">
+				<img src="img/account/ic_settings.png">
+				<h2>设置</h2>				
+			</ion-item>
+			<ion-item class="item-menu item-thumbnail-left" type="item-text-wrap" href ng-click="logout()">
+				<img src="img/account/logout.png">
+				<h2>退出账号</h2>
+			</ion-item>
+		</ion-list>
+    </ion-content>
+</ion-view>

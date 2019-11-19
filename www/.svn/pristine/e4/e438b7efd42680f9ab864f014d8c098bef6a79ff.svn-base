@@ -1,0 +1,32 @@
+<ion-header-bar class="background-positive">
+	<div class="buttons">
+		<button class="button button-icon ion-ios-arrow-back"></button>
+	</div>
+	<h1 class="title account-title" ng-class="marginleft">个人资料</h1>
+</ion-header-bar>
+<ion-view class="personal-information">
+  <ion-content class="contact-information">
+    <p class="sub-title">完善基本资料，即可无阻碍查看异性全部信息</p>
+	<ion-list>
+		<div class="item item-input">
+			<span class="input-label">QQ：</span>
+			<input type="{{cinformation.qq.type}}" name="qq" ng-model="cinformation.qq.value">
+			<div class="other-button">
+				<span class="item-note">升级VIP可见</span>
+				<button class="button font-positive button-clear" ng-click="toggleQQ()">（点击查看）</button>
+			</div>
+		</div>
+		<div class="item item-input">
+			<span class="input-label">手机号：</span>
+			<input type="{{cinformation.phone.type}}" name="phone" ng-model="cinformation.phone.value">
+			<div class="other-button">
+				<span class="item-note">升级VIP可见</span>
+				<button class="button font-positive button-clear" ng-click="togglePhone()">（点击查看）</button>
+			</div>
+		</div>		
+	</ion-list>
+	<div class="button-save">
+		<button class="button background-positive button-positive">保存</button>
+	</div>
+  </ion-content>
+</ion-view>

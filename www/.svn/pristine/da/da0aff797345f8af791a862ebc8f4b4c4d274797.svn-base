@@ -1,0 +1,46 @@
+<ion-header-bar class="background-positive">	
+	<button class="button button-icon ion-ios-arrow-back" ng-click="$ionicGoBack()"></button>
+	<h1 class="title account-title" ng-class="marginleft">我的动态</h1>
+</ion-header-bar>
+<ion-view class="tidings" title="我的动态">  
+  <ion-content>  	
+	<ion-scroll delegate-handle="posts" class="padding">
+		<ion-item ng-repeat="item in posts">
+			<div class="dynamics-summary">
+				<img ng-src="{{item.photo}}"/>
+				<h2 class="font2">「{{item.username}}」<i class="icon" ng-class="item.gender_icon"></i>
+				<a class="pull-right" ng-click="del_post(item.id, $index)"><i class="icon ion-trash-a positive font2"></i></a></h2>
+				<p>{{item.reg_date}}</p>
+			</div>
+			<div class="desc" ng-bind-html="item.content"></div>	
+			<div class="images" ng-show="item.images?true:false">
+				<div ng-class="item.image_class" ng-repeat="img in item.images">
+					<img ng-src="{{img}}" />
+				</div>
+			</div>
+			<div class="buttons">
+				<button class="chatbox" ng-click="start_comment(item.id, $index)"><i class="icon ion-chatbox-working"></i></button>
+			</div>
+			<div class="like" ng-show="item.like_users.length?true:false">
+				<img src="img/dynamics/like_on.png" class="icon-like"/>
+				<img ng-repeat="like in item.like_users" ng-src="{{like.photo}}" class="avatar" ng-click="go_personal(like.id)"/>
+			</div>
+			<div class="comments" ng-show="item.comments.length?true:false">
+				<p ng-repeat="cmt in item.comments">
+					<span class="username">{{cmt.username}} : </span>
+					<span class="comment">{{cmt.comment}}</span>
+				</p>
+			</div>
+			<div class="say" ng-click="start_comment(item.id, $index)">
+				<p>我来说两句</p><i class="icon ion-happy-outline smile"></i>
+			</div>			
+		</ion-item>
+	<ion-scroll>
+  </ion-content>
+</ion-view>
+<ion-footer-bar class="dynamics-say" ng-show="show_footer">
+	<div class="say-something">
+		<input type="text" placeholder="我来说两句" id="say_something" ng-blur="hide_say()"/>
+		<button><i class="icon ion-paper-airplane" ng-click="send_comment()"></i></button>
+	</div>
+</ion-footer-bar>

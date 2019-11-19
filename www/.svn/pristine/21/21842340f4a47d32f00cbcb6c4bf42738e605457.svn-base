@@ -1,0 +1,26 @@
+<ion-view view-title="动态">
+    <ion-nav-buttons side="left">
+        <a ng-click="doSomething()">
+            <img src="img/home/bell.png">
+        </a>
+    </ion-nav-buttons>
+
+    <ion-tabs class="tabs tabs-top dynamic-subtab">
+        <ion-tab title="广场" href="#/tab/dynamics/square">
+            <!-- Tab 1 content -->
+            <ion-nav-view name="tab-dynamic-square"></ion-nav-view>
+        </ion-tab>
+        <ion-tab title="朋友圈" href="#/tab/dynamics/friend">
+            <!-- Tab 2 content -->
+            <ion-nav-view name="tab-dynamic-friend"></ion-nav-view>
+        </ion-tab>
+    </ion-tabs>
+    <ion-content>
+    </ion-content>
+</ion-view>
+<ion-footer-bar class="dynamics-say square" ng-show="show_footer.value">
+	<div class="say-something">
+		<input type="text" placeholder="我来说两句" id="say_something" ng-blur="hide_say()"/>
+		<button ng-click="send_comment()"><i class="icon ion-paper-airplane"></i></button>
+	</div>
+</ion-footer-bar>

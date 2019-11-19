@@ -1,0 +1,26 @@
+<ion-view view-title="用户资料">
+    <ion-nav-buttons side="right">
+        <a ng-click="nextToHobby(true)">
+            跳过
+        </a>
+    </ion-nav-buttons>
+    <ion-content>
+        <div class="regContentView text-center">
+            <div class="userinfo">
+                <div class="annoance">
+                    <img src="img/login/actress.png">
+                    <div class="talking">
+                        <img src="img/login/talk_tag.png">
+                        <span>帅哥，你的收入是多少？</span>
+                    </div>
+                </div>
+                <div style="clear:both;"></div>
+                <ion-list>
+                    <ion-radio ng-repeat="item in wages" ng-model="new_user.wage_id" ng-value="item.id">{{item.wage}}</ion-radio>
+                </ion-list>
+            </div>
+
+            <div class="warp-next-btn text-right"><button ng-click="nextToHobby(false)">下一步</button></div>
+        </div>
+    </ion-content>
+</ion-view>

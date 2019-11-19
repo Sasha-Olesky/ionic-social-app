@@ -1,0 +1,676 @@
+angular.module('starter.account', [])
+.controller('accountCtrl', function($scope, $window, $state, $timeout, $ionicHistory, $ionicScrollDelegate, $ionicPopup, $ionicLoading, Session, APIManager, ionicToast){
+	$scope.$on('$ionicView.beforeEnter', function() {
+		$scope.$emit('child', false);
+		if(!Session.isLoggedIn()){
+			$state.go('login', { param: 'account' });
+		}
+	});
+	
+	$scope.$on('$stateChangeStart', function() {
+		$scope.$emit('child', false);		
+	});	
+	
+	$scope.go_state = function(state) {				
+		$state.go(state);
+	};
+	
+	$scope.go_back = function() {		
+		Session.goBack();
+	};
+	
+	if ($state.current.name == 'tab.account'){
+		Session.clearSession('history');
+	}
+	var states = ['tab.account', 'tab.agree', 'tab.call_to_meet', 'tab.my_follows.follow', 'tab.my_follows.follow_me', 'update_membership', 'account_dynamics', 'vip_privilege', 'payment', 'integral_shop.product_male', 'integral_shop.product_female', 'buy_coins', 'product_detail', 'coin_payment'];
+	if (states.indexOf($state.current.name) !== -1) {
+		Session.saveHistory();
+	}	
+	
+	$scope.user = Session.getSession('user');
+	
+	$scope.max_list_height = getMaxHeight(235);	
+	$scope.max_list_height2 = getMaxHeight(140);
+	$scope.max_list_height3 = getMaxHeight(90);	
+	
+	function getMaxHeight(offset) {
+		return $window.innerHeight - offset
+	}
+	
+	$scope.go_personal = function(id) {
+		$state.go('personal_space',{id:id});
+	}
+	
+	/*================ index page ==================*/
+	if ($state.current.name == 'tab.account'){	
+		
+		var url = 'get_visitors';
+		var data = {userid:$scope.user.id};
+		$ionicLoading.show();
+		APIManager.get(url, data).then(function (res){
+			$scope.visitors = res.data.visitors;			
+			$ionicLoading.hide();
+		});
+		
+		$scope.sleft=function() {
+			$ionicScrollDelegate.scrollBy(-56, 0, true);
+		};
+		
+		$scope.sright=function() {
+			$ionicScrollDelegate.scrollBy(56, 0, true);
+		};
+		
+		var mySign, mySuccess;
+		$scope.signConfirm = function() {
+			mySign = $ionicPopup.show({					
+				templateUrl: 'templates/account/sign_confirm.html',
+				scope: $scope
+			});
+		};	
+
+		$scope.signSuccess = function() {
+			mySign.close();
+			mySuccess = $ionicPopup.show({					
+				templateUrl: 'templates/account/sign_success.html',
+				scope: $scope
+			});
+		};
+		
+		$scope.sign_close = function() {
+			if(mySign) mySign.close();
+			if(mySuccess) mySuccess.close();
+		};
+		
+		//logout
+		$scope.logout = function(){
+			Session.logout();
+			$state.go('login');
+		};
+	}	
+
+	//******************** Update membership *********************
+	if ($state.current.name == 'update_membership' || $state.current.name == 'vip_privilege' || $state.current.name == 'payment'){
+					
+		$scope.payment = {
+			mode : 'alipay'
+		}
+		$scope.goPrivilege = function(days) {
+			$state.go('vip_privilege', {vip_days:days});
+		};
+		
+		$scope.vip = {
+			days : $state.params.vip_days,
+			privilege : [],
+			cost : '0'
+		}
+		
+		if (!$scope.vip.days) $scope.vip.days = '0';
+		switch ($scope.vip.days) {
+			case '30':
+			$scope.vip.privilege = [true, true, false, false, false, false];
+			$scope.vip.cost = '98';
+			break;
+			case '180':
+			$scope.vip.privilege = [true, true, true, true, false, false];
+			$scope.vip.cost = '198';
+			break;
+			case '365':
+			$scope.vip.privilege = [true, true, true, true, true, true];
+			$scope.vip.cost = '398';
+			break;
+			default:
+			$scope.vip.privilege = [true, false, false, false, false, false];
+			$scope.vip.cost = '0';
+		}
+		
+		$scope.goPayment = function() {
+			$state.go('payment', {vip_days:$scope.vip.days});
+		};
+		
+		$scope.vip_pay = function() {
+			var url = 'update_membership';
+			var data = {userid:$scope.user.id, vip:$scope.vip.days};
+			APIManager.get(url, data).then(function (res){
+				ionicToast.show('成功支付', 'middle', false, 1500);
+				$scope.user.membership = res.data.membership;
+				Session.setSession('user', $scope.user);
+				Session.goBack(-3);
+			});
+		}
+	}
+	
+	//******************** Buy Gold coins *********************
+	if ($state.current.name == 'buy_coins' || $state.current.name == 'coin_payment'){
+		$scope.payment = {
+			mode : 'alipay'
+		}
+		$scope.gold_coins = {
+			coins : $state.params.coins,
+			cost : 0
+		}
+		if (!$scope.gold_coins.coins) $scope.gold_coins.coins = '0';
+		switch ($scope.gold_coins.coins) {
+			case '1500':		
+			$scope.gold_coins.cost = '98';
+			break;
+			case '3000':
+			$scope.gold_coins.cost = '198';
+			break;
+			case '6000':
+			$scope.gold_coins.cost = '398';
+			break;
+			default:
+			$scope.gold_coins.cost = '0';
+		}
+		
+		$scope.goCoinPayment = function(coins) {
+			$state.go('coin_payment', {coins:coins});
+		};
+		$scope.coins_pay = function() {
+			var url = 'update_coins';
+			var data = {userid:$scope.user.id, coins:$scope.gold_coins.coins};
+			APIManager.get(url, data).then(function (res){
+				var new_coins = res.data.gold_coins;
+				$scope.user.gold_coins = new_coins;
+				Session.setSession('user', $scope.user);
+				ionicToast.show('成功支付', 'middle', false, 1500);
+				Session.goBack(-2);
+			});
+		}
+	}
+	
+	//******************** Personal Information - Monologue *********************
+	if ($state.current.name == 'personal_information.inner_monologue'){
+		$scope.detail = {
+			monologue : 0
+		}
+		var url = 'get_monologue';
+		var data = {userid:$scope.user.id};
+		$ionicLoading.show();
+		APIManager.get(url, data).then(function (res){
+			$scope.detail.monologue = res.data.monologue;
+			$scope.conditions = res.data.conditions;			
+			$ionicLoading.hide();
+		});
+		$scope.save_monologue = function() {
+			var url = 'set_detail';
+			var data = {userid:$scope.user.id, field:'monologue_id', value:$scope.detail.monologue};
+			APIManager.get(url, data).then(function (res){
+				ionicToast.show('成功保存', 'middle', false, 1500);
+			});
+		};
+	}
+	
+	//******************** Personal Information - Detail Information *********************
+	if ($state.current.name == 'personal_information.detail_information'){
+		$scope.details = [];
+		var url = 'get_details';
+		var data = {userid:$scope.user.id};
+		$ionicLoading.show();
+		APIManager.get(url, data).then(function (res){			
+			$scope.details = res.data.details;
+			$scope.hobbies = res.data.hobbies;			
+			$ionicLoading.hide();
+		});
+		$scope.save_details = function() {			
+			var url = 'set_details';
+			var data = {userid:$scope.user.id};
+			$scope.details.forEach(function(item, index) {
+				data[item.field] = item.value;
+			});
+			APIManager.post(url, data).then(function (res){
+				ionicToast.show('成功保存', 'middle', false, 1500);
+			});
+		};
+		var myHobbyConfirm, hobby_index;
+		$scope.selHobby = function(hindex) {
+			hobby_index = hindex;
+			var hobby_id = $scope.details[hindex].value;
+			var arr_hobby = hobby_id.split(',');
+			$scope.hobbies.forEach(function(item, index){
+				if (arr_hobby.indexOf(item.id) !== -1) {
+					item.checked = true;
+				} else {
+					item.checked = false;
+				}
+			});
+			myHobbyConfirm = $ionicPopup.show({					
+				templateUrl: 'templates/account/personal_information/hobby_confirm.html',
+				scope: $scope
+			});
+		};
+		$scope.hobby_cancel = function() {
+			myHobbyConfirm.close();
+		};
+		$scope.hobby_confirm = function() {
+			var hobby_id = '', hobby_text = '';
+			$scope.hobbies.forEach(function(item, index){
+				if (item.checked) {
+					if (hobby_id != '') {
+						hobby_id += ','; hobby_text += ',';
+					}
+					hobby_id += item.id;
+					hobby_text += item.hobby;
+				}
+			});
+			if (hobby_text == '') hobby_text = '请选择...';
+			$scope.details[hobby_index].value = hobby_id;
+			$scope.details[hobby_index].hobby = hobby_text;
+			myHobbyConfirm.close();
+		};
+	}
+	
+	//******************** Personal Information - Contact Information *********************
+	if ($state.current.name == 'personal_information.contact_information'){
+		$scope.contact = {
+			phone : {type: 'password', value : $scope.user.phone},
+			qq : {type : 'password', value : $scope.user.qq}
+		};
+		var url = 'get_membership';
+		var data = {userid:$scope.user.id};		
+		APIManager.get(url, data).then(function (res){
+			$scope.user.membership = res.data.membership;
+			if ($scope.user.membership) {
+				$scope.contact.phone.type = 'text';
+				$scope.contact.qq.type = 'text';
+			}			
+		});
+		$scope.save_contact = function() {
+			if ($scope.contact.phone.value == '') {
+				ionicToast.show('请输入您的手机号码。', 'middle', false, 1500);			
+				return false;
+			} else {
+				url = 'check_phone2';
+				data = {userid:$scope.user.id, phone:$scope.contact.phone.value};
+				APIManager.get(url, data).then(function (res){
+					if (res.data.code != '0') {
+						ionicToast.show('该手机号码已被使用。', 'middle', false, 1500);
+					} else {
+						url = 'update_contact';
+						var data = {userid:$scope.user.id, phone:$scope.contact.phone.value, qq:$scope.contact.qq.value};		
+						APIManager.get(url, data).then(function (res){
+							ionicToast.show('成功保存', 'middle', false, 1500);
+							$scope.user.phone = $scope.contact.phone.value;
+							$scope.user.qq = $scope.contact.qq.value;
+							Session.clearSession('new_user');
+							Session.setSession('user', $scope.user);
+						});
+					}
+				});
+			}
+		};
+		var myVip;
+		$scope.upgradeMembership = function() {
+			myVip = $ionicPopup.show({	
+				cssClass : 'vip-popup-css',
+				templateUrl: 'templates/personal_space/vip_confirm.html',
+				scope: $scope
+			});
+		};		
+		$scope.vip_cancel = function() {
+			myVip.close();
+		};
+		$scope.vip_confirm = function() {			
+			myVip.close();
+			$state.go('update_membership');
+		};
+	}
+	//******************** Personal Information - Partner Condition *********************
+	if ($state.current.name == 'personal_information.partner_condition'){
+		$scope.conditions = [];
+		var url = 'get_partner_conditions';
+		var data = {userid:$scope.user.id};
+		$ionicLoading.show();
+		APIManager.get(url, data).then(function (res){			
+			$scope.conditions = res.data.conditions;			
+			$ionicLoading.hide();
+		});
+		$scope.save_conditions = function() {			
+			var url = 'set_conditions';
+			var data = {userid:$scope.user.id};
+			$scope.conditions.forEach(function(item, index) {
+				data[item.field] = item.value;
+			});
+			APIManager.post(url, data).then(function (res){				
+				ionicToast.show('成功保存', 'middle', false, 1500);
+			});
+		};
+	}
+	
+	//******************** Product list *********************
+	if ($state.current.name == 'integral_shop.product_male' || $state.current.name == 'integral_shop.product_female'){
+		var mode = 1, page = 1;
+		mode = $state.current.name == 'integral_shop.product_male'?1:0;
+		$scope.products = [];
+		var url = 'get_products';
+		var data = {mode:mode, page:page};
+		$ionicLoading.show();
+		APIManager.get(url, data).then(function (res){			
+			$scope.products = res.data.products;			
+			$scope.more = res.data.is_more;			
+			$ionicLoading.hide();
+		});
+		
+		$scope.loadMore = function() {
+			page++;
+			url = 'get_products';
+			data = {mode:mode, page:page};
+			$ionicLoading.show();
+			APIManager.get(url, data).then(function(res) {
+				$scope.products = $scope.products.concat(res.data.products);
+				$scope.$broadcast('scroll.infiniteScrollComplete');
+				$scope.more = res.data.is_more;
+				$ionicLoading.hide();
+			});
+		};	
+	}
+	
+	//******************** Product detail *********************
+	if ($state.current.name == 'product_detail'){
+		var id = $state.params.product_id;
+		var url = 'get_product';
+		var data = {id:id};
+		$ionicLoading.show();
+		APIManager.get(url, data).then(function (res){			
+			$scope.product = res.data;			
+			$ionicLoading.hide();
+		});
+		var myBuy;
+		$scope.buyConfirm = function() {
+			if ($scope.user.gold_coins < $scope.product.integral) {
+				ionicToast.show('我的金币是不够的。', 'middle', false, 1500);
+				return false;
+			}
+			myBuy = $ionicPopup.show({	
+				cssClass : 'buy-popup-css',
+				templateUrl: 'templates/account/integral_shop/buy_confirm.html',
+				scope: $scope
+			});
+		};
+		$scope.buy_cancel = function() {
+			myBuy.close();
+		};
+		$scope.buy_confirm = function() {			
+			var url = 'update_coins';
+			var data = {userid:$scope.user.id, coins:(-1)*$scope.product.integral};
+			APIManager.get(url, data).then(function (res){	
+				ionicToast.show('成功兑换', 'middle', false, 1500);
+				$scope.user.gold_coins = res.data.gold_coins;
+				Session.setSession('user', $scope.user);
+				myBuy.close();
+			});
+		};
+	}
+	
+	//******************** I Follow *********************
+	if ($state.current.name == 'tab.my_follows.follow' || $state.current.name == 'tab.my_follows.follow_me' ){
+		var mode = $state.current.name == 'tab.my_follows.follow'?1:0;
+		var page = 1;
+		$scope.follows = [];
+		var url = 'get_follows';
+		var data = {userid:$scope.user.id, mode:mode, page:page};
+		$ionicLoading.show();
+		APIManager.get(url, data).then(function (res){			
+			$scope.follows = res.data.follows;
+			follows = res.data.follows;
+			$scope.more = res.data.is_more;			
+			$ionicLoading.hide();
+		});		
+		
+		$scope.loadMore = function() {
+			page++;
+			url = 'get_follows';
+			data = {userid:$scope.user.id, mode:mode, page:page};
+			$ionicLoading.show();
+			APIManager.get(url, data).then(function(res) {
+				$scope.follows = $scope.follows.concat(res.data.follows);
+				$scope.$broadcast('scroll.infiniteScrollComplete');
+				$scope.more = res.data.is_more;
+				$ionicLoading.hide();
+			});
+		};	
+		
+		url = 'get_greetings';
+		data = null;
+		APIManager.get(url, data).then(function (res){			
+			$scope.greetings = res.data.greetings;
+		});
+		var greetingPopup, to_userid, to_index;
+		$scope.send_greeting = function(id, is_sent, t_index) {
+			if (is_sent) {
+				ionicToast.show('仅在24小时内打招呼一次。', 'middle', false, 1500);
+			} else {
+				to_userid = id;
+				to_index = t_index
+				greetingPopup = $ionicPopup.show({	
+					cssClass : 'greeting-popup-css',
+					templateUrl: 'templates/account/my_follows/greetings.html',
+					scope:$scope
+				});
+			}
+		};
+		$scope.send_cancel = function() {
+			greetingPopup.close();
+		}		
+		$scope.greeting_confirm = function(id) {						
+			url = 'send_greeting';
+			data = {userid:$scope.user.id, to_userid:to_userid, greeting_id:id, tbname:'follow_logs'};
+			APIManager.get(url, data).then(function (res){			
+				ionicToast.show('打招呼', 'middle', false, 1500);
+				$scope.follows[to_index].is_sent = true;
+				greetingPopup.close();
+			});
+		};		
+	}
+	
+	//******************** Agree & Call to meet *********************
+	if ($state.current.name == 'tab.agree' || $state.current.name == 'tab.call_to_meet' ){		
+		var mode = $state.current.name == 'tab.call_to_meet'?0:1;
+		var page = 1;
+		$scope.meets = [];
+		var url = 'get_meets';
+		var data = {userid:$scope.user.id, mode:mode, page:page};
+		$ionicLoading.show();
+		APIManager.get(url, data).then(function (res){			
+			$scope.meets = res.data.meets;
+			meets = res.data.meets;			
+			$scope.more = res.data.is_more;			
+			$ionicLoading.hide();
+		});
+		$scope.loadMore = function() {
+			page++;
+			url = 'get_meets';
+			data = {userid:$scope.user.id, mode:mode, page:page};
+			$ionicLoading.show();
+			APIManager.get(url, data).then(function(res) {
+				$scope.meets = $scope.meets.concat(res.data.meets);
+				$scope.$broadcast('scroll.infiniteScrollComplete');
+				$scope.more = res.data.is_more;
+				$ionicLoading.hide();
+			});
+		};	
+		url = 'get_greetings';
+		data = null;
+		APIManager.get(url, data).then(function (res){			
+			$scope.greetings = res.data.greetings;
+		});
+		var greetingPopup, to_userid, to_index, greeting_mode;
+		$scope.send_greeting = function(g_mode, id, is_sent, t_index) {
+			if (is_sent) {
+				ionicToast.show('仅在24小时内打招呼一次。', 'middle', false, 1500);
+			} else {
+				to_userid = id;
+				to_index = t_index
+				greeting_mode = g_mode;
+				greetingPopup = $ionicPopup.show({	
+					cssClass : 'greeting-popup-css',
+					templateUrl: 'templates/account/my_follows/greetings.html',
+					scope:$scope
+				});
+			}
+		};
+		$scope.send_cancel = function() {
+			greetingPopup.close();
+		}		
+		$scope.greeting_confirm = function(id) {						
+			url = 'send_' + greeting_mode;
+			data = {userid:$scope.user.id, to_userid:to_userid, greeting_id:id, tbname:'meet_logs'};
+			APIManager.get(url, data).then(function (res){			
+				ionicToast.show('打招呼', 'middle', false, 1500);
+				if (greeting_mode == 'greeting')
+					$scope.meets[to_index].is_sent = true;
+				else 
+					$scope.meets[to_index].is_replied = true;
+				greetingPopup.close();
+			});
+		};
+	}
+	
+	//******************** Gift *********************
+	if ($state.current.name == 'tab.my_gifts.received' || $state.current.name == 'tab.my_gifts.given' ){
+		var mode = $state.current.name == 'tab.my_gifts.received'?1:0;
+		var page = 1;
+		$scope.gifts = [];
+		var url = 'get_gifts';
+		var data = {userid:$scope.user.id, mode:mode, page:page};
+		$ionicLoading.show();
+		APIManager.get(url, data).then(function (res){			
+			$scope.gifts = res.data.gifts;
+			gifts = res.data.gifts;
+			$scope.more = res.data.is_more;			
+			$ionicLoading.show();
+		});
+		$scope.loadMore = function() {
+			page++;
+			url = 'get_gifts';
+			data = {userid:$scope.user.id, mode:mode, page:page};
+			$ionicLoading.show();
+			APIManager.get(url, data).then(function(res) {
+				$scope.gifts = $scope.meets.concat(res.data.gifts);
+				$scope.$broadcast('scroll.infiniteScrollComplete');
+				$scope.more = res.data.is_more;
+				$ionicLoading.hide();
+			});
+		};	
+	}	
+	
+	//*************** Dynamics ***************
+	if ($state.current.name == 'account_dynamics') {
+		$scope.show_footer = false;
+		var page = 1;
+		$scope.posts = [];
+		var url = 'get_post';
+		var data = {userid:$scope.user.id, page:page};
+		$ionicLoading.show();
+		APIManager.get(url, data).then(function (res){			
+			$scope.posts = res.data.posts;
+			$scope.more = res.data.is_more;			
+			$ionicLoading.hide();
+		});
+		$scope.loadMore = function() {
+			page++;
+			url = 'get_post';
+			data = {userid:$scope.user.id, page:page};
+			$ionicLoading.show();
+			APIManager.get(url, data).then(function(res) {
+				$scope.posts = $scope.meets.concat(res.data.posts);
+				$scope.$broadcast('scroll.infiniteScrollComplete');
+				$scope.more = res.data.is_more;
+				$ionicLoading.hide();
+			});
+		};	
+		var confirmPopup, post_id, index, click_send;
+		var comment = document.getElementById('say_something');
+		$scope.del_post = function(p_id, i) {
+			post_id = p_id;
+			index = i;
+			confirmPopup = $ionicPopup.show({				
+				templateUrl: 'templates/account/post_delete_confirm.html',
+				scope:$scope
+			});		
+		};
+		$scope.delete_cancel = function() {
+			confirmPopup.close();
+		}
+		$scope.delete_confirm = function() {			
+			url = 'delete_post';
+			data = {postid:post_id, userid:$scope.user.id};
+			APIManager.get(url, data).then(function (res){			
+				posts.splice(index, 1);
+				$scope.posts = posts;
+				confirmPopup.close();
+			});
+		};
+		$scope.start_comment = function(p_id, i) {
+			post_id = p_id;
+			index = i;
+			$scope.show_footer = true;
+			$timeout(function () {
+				comment.focus();
+				click_send = false;
+			}, 0);
+		};
+		$scope.hide_say = function() {
+			if (click_send) {
+				comment.focus();
+				click_send = false;
+				return false;
+			}
+			$scope.show_footer = false;
+		}
+		$scope.send_comment = function() {			
+			if (comment.value == '') {
+				ionicToast.show('请输入内容', 'middle', false, 1500);
+				click_send = true;
+				return false;
+			}
+			url = 'insert_comment';
+			data = {postid:post_id, userid:$scope.user.id, comment:comment.value};
+			APIManager.post(url, data).then(function (res){
+				$scope.posts[index].comments = res.data.comments;
+				comment.value = '';
+			});
+		}
+	}
+	
+	//*************** Change password ***************
+	if ($state.current.name == 'tab.change_password') {
+		$scope.pwd = {
+			cur_password : '',
+			new_password : '',
+			confirm_password : ''
+		}
+		$scope.save_pwd = function() {
+			if ($scope.pwd.cur_password == '') {
+				ionicToast.show('请输入当前密码', 'middle', false, 1500);	
+				return false;
+			}
+			if ($scope.pwd.new_password == '') {
+				ionicToast.show('请输入新密码', 'middle', false, 1500);	
+				return false;
+			} else if ($scope.pwd.new_password.length < 4) {
+				ionicToast.show('请输入密码至少4个字符。', 'middle', false, 1500);			
+				return false;
+			}
+			if ($scope.pwd.confirm_password == '') {
+				ionicToast.show('请确认密码', 'middle', false, 1500);	
+				return false;
+			} else if($scope.pwd.new_password != $scope.pwd.confirm_password){
+				ionicToast.show('请正确确认密码', 'middle', false, 1500);
+				return false;
+			}
+			url = 'update_password';
+			data = {userid:$scope.user.id, cur_password:$scope.pwd.cur_password, password:$scope.pwd.new_password};
+			APIManager.get(url, data).then(function (res){			
+				if (!res.data.code) {
+					ionicToast.show('保存失败', 'middle', false, 1500);
+				} else if (res.data.code == -1) {
+					ionicToast.show('请正确当前密码', 'middle', false, 1500);
+				} else {
+					ionicToast.show('保存成功', 'middle', false, 1500);
+				}
+			});		
+		}		
+	}
+	
+});

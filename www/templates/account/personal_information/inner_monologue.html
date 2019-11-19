@@ -1,0 +1,19 @@
+<ion-header-bar class="background-positive">
+	<div class="buttons">
+		<button class="button button-icon ion-ios-arrow-back"></button>
+	</div>
+	<h1 class="title account-title" ng-class="marginleft">个人资料</h1>
+</ion-header-bar>
+<ion-view class="personal-information">  
+  <ion-content>	
+    <p class="sub-title">完善基本资料，即可无阻碍查看异性全部信息</p>
+	<ion-scroll style="max-height:{{max_list_height}}px">
+		<div class="radio-group">
+			<ion-radio ng-repeat="item in conditions" ng-model="detail.monologue" ng-value="item.id">{{item.monologue}}</ion-radio>
+		</div>
+	</ion-scroll>
+	<div class="button-save">
+		<button class="button background-positive button-positive" ng-click="save_monologue()">保存</button>
+	</div>
+  </ion-content>
+</ion-view>

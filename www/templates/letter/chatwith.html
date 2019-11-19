@@ -1,0 +1,66 @@
+﻿<ion-view view-title="{{target.name}}" cache-view="false">
+    <ion-header-bar align-title="left" class="bar-light bar-pink">
+        <div class="buttons">
+            <button class="button button-icon ion-ios-arrow-back" ng-click="navBack()"></button>
+        </div>
+        <h1 class="title">点击喜欢，你将不会错过Ta的任何消息</h1>
+        <div class="buttons">
+            <a class="btn-like" style="margin-top:10px"><img ng-if="islike" src="img/chat/like.png"></a>
+            <a class="btn-like" style="margin-top:10px"><img ng-if="islike != true" src="img/chat/like_off.png"></a>
+		</div>
+    </ion-header-bar>
+    <ion-content class="chat-content-view" overflow-scroll="true">
+        <ion-refresher on-refresh="doRefresh()" pulling-text="下拉刷新" refreshing-text="请稍等" refreshing-icon="ion-loading-b">
+        </ion-refresher>
+        <div class="clearfix chatbox">
+            <div ng-repeat="message in hisMsgs">
+                <div class="time"><span>{{message.sentTime}}</span></div>
+                <div class="clearfix {{message.senderUserId==user.id?'sent':'receive'}}">
+
+                    <img ng-src="{{message.senderUserId==user.id?user.photo:target.photo}}" class="userphoto">
+                    <div class="message">
+                        <!--文本-->
+                        <p ng-if="message.objectName=='RC:TxtMsg'" ng-bind-html="message.content.text | trustHtml"></p>
+                        <!--语音-->
+                        <div ng-if="message.objectName=='RC:VcMsg'">
+                            <div class="second">
+                                <a class="button button-icon icon ion-volume-medium" href="javascript:void(0)" title="播放" ng-click="play('{{message.content.voicePath}}')"></a>
+                            </div>
+                        </div>
+                        <!--图片-->
+                        <div ng-if="message.objectName=='RC:ImgMsg'"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+    <div ng-show="data.showHint" class="hint">
+        <i class="icon ion-mic-a recording"></i>
+        <div class="record-progressbar"></div>
+        <p>{{data.hintText}}</p>
+    </div>
+    <ion-footer-bar style="height:auto;">
+        <ion-list style="width:100%">
+            <div class="bar chat-control-bar" style="position:relative;">
+                <a class="btn-image" on-hold="startRecord()" on-release="stopRecord()"><img src="img/chat/microphone.png"></a>
+                <input type="text" ng-model="vm.text" id="msgContent" class="input-news" placeholder="输入新消息">
+                <a class="btn-image" id="RongIMexpression"><img src="img/chat/emocoin.png"></a>
+                <!--<a class="btn-image" ng-if="vm.text.length==0"> <img src="img/chat/plus.png"></a>-->
+                <button ng-click="sendMsg()" style="border:none;background-color:rgb(255,255,255);font-weight:bold">发送</button>
+
+            </div>
+        </ion-list>
+    </ion-footer-bar>
+    <!--<div class="bar bar-footer chat-control-bar" >
+            <a class="btn-image" on-touch="startRecord()" on-release="stopRecord()"><img src="img/chat/microphone.png"></a>
+            <input type="text" ng-model="vm.text"  id="msgContent" class="input-news" placeholder="输入新消息">
+            <a class="btn-image"  id="RongIMexpression" ><img src="img/chat/emocoin.png"></a>
+            <a class="btn-image"  ng-click="sendMsg()"><img src="img/chat/plus.png"></a>
+        </div>-->
+    <!--<div class="bar bar-footer chat-control-bar" >
+            <a class="btn-image" on-touch="startRecord()" on-release="stopRecord()"><img src="img/chat/microphone.png"></a>
+            <input type="text" ng-model="vm.text"  id="msgContent" class="input-news" placeholder="输入新消息">
+            <a class="btn-image"  id="RongIMexpression" ><img src="img/chat/emocoin.png"></a>
+            <a class="btn-image"  ng-click="sendMsg()"><img src="img/chat/plus.png"></a>
+        </div>-->
+</ion-view>

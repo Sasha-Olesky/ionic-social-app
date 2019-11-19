@@ -1,0 +1,298 @@
+angular.module('starter.services', [])
+
+.factory('APIManager', function($http) {
+	var base_url = 'http://localhost/api/';
+	
+	var getPostParams = function ObjecttoParams(obj){
+	  var p = [];
+	  for (var key in obj){
+		p.push('social_' + key + '=' + encodeURIComponent(obj[key]));
+	  }
+	  return p.join('&');
+	};
+	var getGetParams = function ObjecttoParams(obj){
+	  var p = [];
+	  for (var key in obj){
+		p.push('social_' + key + '/' + encodeURIComponent(obj[key]));
+	  }
+	  return p.join('/');
+	};
+	
+	return {
+		post : function(url, param) {
+			var link = base_url + url;
+			return $http({
+				method: 'POST',
+				url: link,
+				data : getPostParams(param),
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			});			
+		},
+		get : function(url, param) {
+			var link = base_url + url;
+			if (param) link += '/' + getGetParams(param);
+			return $http({
+				method: 'GET',
+				url: link,
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			});			
+		}
+	}
+	
+})
+.factory('rOnline', function() {
+      // Might use a resource here that returns a JSON array
+
+      // Some fake testing data
+	var users = [{
+        userid: 0,
+        photo: 'photo1.jpg',
+        username: 'Crystal',
+		age: 23,
+		height: 154,
+		address : '北京',
+        follows: 22,
+        likes:'1'
+    },{
+        userid: 1,
+        photo: 'photo2.jpg',
+        username: 'Klex',
+		age: 20,
+		height: 164,
+		address : '北京',
+        follows: 12,
+        likes:0
+    },{
+        userid: 2,
+        photo: 'photo3.jpg',
+        username: 'Enem',
+		age: 22,
+		height: 158,
+		address : '北京',
+        follows: 12,
+        likes:1
+    },{
+        userid: 3,
+        photo: 'photo4.jpg',
+        username: 'Enem',
+		age: 26,
+		height: 174,
+		address : '北京',
+        follows: 12,
+        likes:0
+    },{
+        userid: 4,
+        photo: 'photo5.jpg',
+        username: 'Enem',
+		age: 19,
+		height: 159,
+		address : '北京',
+        follows: 12,
+        likes:0
+    },{
+        userid: 5,
+        photo: 'photo6.jpg',
+        username: 'Enem',
+		age: 27,
+		height: 165,
+		address : '北京',
+        follows: 12,
+        likes:0
+    },{
+        userid: 6,
+        photo: 'photo7.jpg',
+        username: 'Enem',
+		age: 26,
+		height: 158,
+		address : '北京',
+        follows: 12,
+        likes:1
+    },{
+        userid: 7,
+        photo: 'photo8.jpg',
+        username: 'Enem',
+		age: 21,
+		height: 159,
+		address : '北京',
+        follows: 12,
+        likes:0
+    },{
+        userid: 8,
+        photo: 'photo9.jpg',
+        username: 'Enem',
+		age: 20,
+		height: 170,
+		address : '北京',
+        follows: 12,
+        likes:1
+    },{
+        userid: 9,
+        photo: 'photo12.jpg',
+        username: 'Enem',
+		age: 29,
+		height: 171,
+		address : '北京',
+        follows: 12,
+        likes:0
+    },{
+        userid: 10,
+        photo: 'photo10.jpg',
+        username: 'Enem',
+		age: 30,
+		height: 158,
+		address : '北京',
+        follows: 12,
+        likes:0
+    },{
+        userid: 11,
+        photo: 'photo11.jpg',
+        username: 'Enem',
+		age: 31,
+		height: 174,
+		address : '北京',
+        follows: 12,
+        likes:0
+    },{
+        userid: 12,
+        photo: 'photo12.jpg',
+        username: 'Hellen',
+		age: 32,
+		height: 172,
+		address : '北京',
+        follows: 12,
+        likes:0
+    },{
+		userid: 13,
+		photo: 'photo0.jpg',
+		username: '树袋熊',
+		age: 24,
+		height: 164,
+		address : '北京',
+		follows: 12,
+		likes:0
+    },{
+        userid: 14,
+        photo: 'photo11.jpg',
+        username: 'Enem',
+		age: 29,
+		height: 157,
+		address : '北京',
+        follows: 12,
+        likes:0
+    },{
+		userid: 15,
+		photo: 'photo12.jpg',
+		username: 'Hellen',
+		age: 27,
+		height: 167,
+		address : '北京',
+		follows: 12,
+		likes:0
+    },{
+        userid: 16,
+        photo: 'photo10.jpg',
+        username: 'Enem',
+		age: 21,
+		height: 160,
+		address : '北京',
+        follows: 12,
+        likes:0
+    }];
+
+      return {
+        all: function() {
+          return users;
+        },
+        remove: function(user) {
+          users.splice(users.indexOf(user), 1);
+        },
+        follow:function(userid){
+          for (var i = 0; i < users.length; i++) {
+            if (users[i].userid === parseInt(userid)) {
+              users[i].likes = 1;
+            }
+          }
+        },
+        get: function(userid) {
+          for (var i = 0; i < users.length; i++) {
+            if (users[i].userid === parseInt(userid)) {
+              return users[i];
+            }
+          }
+          return null;
+        }
+      };
+    })
+.factory('Chats', function() {
+  // Might use a resource here that returns a JSON array
+
+  // Some fake testing data
+  var chats = [{
+    id: 0,
+    name: 'Ben Sparrow',
+    lastText: 'You on your way?',
+    face: 'img/ben.jpg'
+  }, {
+    id: 1,
+    name: 'Max Lynx',
+    lastText: 'Hey, it\'s me',
+    face: 'img/max.jpg'
+  }, {
+    id: 2,
+    name: 'Adam Bradleyson',
+    lastText: 'I should buy a boat',
+    face: 'img/adam.jpg'
+  }, {
+    id: 3,
+    name: 'Perry Governor',
+    lastText: 'Look at my mukluks!',
+    face: 'img/perry.jpg'
+  }
+  , {
+    id: 4,
+    name: 'Mike Harrington',
+    lastText: 'This is wicked good ice cream.',
+    face: 'img/mike.jpg'
+  }
+  , {
+    id: 5,
+    name: 'Mike Harrington',
+    lastText: 'This is wicked good ice cream.',
+    face: 'img/mike.jpg'
+  }
+  , {
+    id: 6,
+    name: 'Mike Harrington',
+    lastText: 'This is wicked good ice cream.',
+    face: 'img/mike.jpg'
+  }
+  , {
+    id: 7,
+    name: 'Mike Harrington',
+    lastText: 'This is wicked good ice cream.',
+    face: 'img/mike.jpg'
+  }
+  , {
+    id: 8,
+    name: 'Mike Harrington',
+    lastText: 'This is wicked good ice cream.',
+    face: 'img/mike.jpg'
+  }];
+
+  return {
+    all: function() {
+      return chats;
+    },
+    remove: function(chat) {
+      chats.splice(chats.indexOf(chat), 1);
+    },
+    get: function(chatId) {
+      for (var i = 0; i < chats.length; i++) {
+        if (chats[i].id === parseInt(chatId)) {
+          return chats[i];
+        }
+      }
+      return null;
+    }
+  };
+});

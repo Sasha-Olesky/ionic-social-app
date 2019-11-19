@@ -1,0 +1,93 @@
+<ion-view view-title="征友条件">
+    <ion-nav-buttons side="left">
+        <a ng-click="go_state('tab.home')">
+            <i class="icon ion-chevron-left nav_back_force"></i>
+        </a>
+    </ion-nav-buttons>
+    <ion-content class="search-content">
+        <ion-list class="list-search">
+            <ion-item class="item item-input item-select">
+                <div class="input-label">Ta的所在地</div>
+				<select ng-model="condition.location">
+					<option ng-repeat="item in conditions.locations" ng-value="item.value" value="{{item.value}}">{{item.value}}</option>
+				</select>
+            </ion-item>
+            <ion-item class="item-anchor-right">
+                <h2>Ta的年龄</h2>
+                <a href ng-click="showAgeModal()">{{condition.from_age_label}} - {{condition.to_age_label}} <i class="icon ion-chevron-right icon-accessory"></i></a>
+            </ion-item>
+            <ion-item class="item-anchor-right">
+                <h2>Ta的身高</h2>
+                <a href ng-click="showStatureModal()">{{condition.from_stature_label}} - {{condition.to_stature_label}} <i class="icon ion-chevron-right icon-accessory"></i></a>
+            </ion-item>
+        </ion-list>
+		<div class="buttons">
+			<button class="btn-save-search-cond" ng-click="clear()">删除</button>
+			<button class="btn-save-search-cond" ng-click="search()">保存</button>
+		</div>
+    </ion-content>    
+    <script id="search-age.html" type="text/ng-template">
+        <ion-modal-view class="modal-location-cond search-cond">
+            <ion-header-bar>
+                <span class="title">年龄</span>
+            </ion-header-bar>
+            <ion-content class="overflow-hide">
+                <div class="ios-scroll-select">
+                    <div class="row row-no-padding">
+                        <div class="sel-col text-center">							
+							<ion-item class="item item-input item-select">
+								<div class="input-label">&nbsp;</div>
+								<select ng-model="sel_age.from_age" ng-options="item.value as item.label for item in conditions.ages.from_ages" ng-change="reload_age()">
+								</select>
+							</ion-item>
+                        </div>
+                        <div class="sel-col text-center"><i class="icon ion-minus"></i></div>
+                        <div class="sel-col text-center">
+							<ion-item class="item item-input item-select">
+								<div class="input-label">&nbsp;</div>
+								<select ng-model="sel_age.to_age" ng-options="item.value as item.label for item in conditions.ages.to_ages" >
+								</select>
+							</ion-item>
+                        </div>
+                    </div>
+					<div class="buttons">
+						<button class="modal-search-cond-save-btn" ng-click="cancelModal('age')">取消</button>
+						<button class="modal-search-cond-save-btn" ng-click="confirmAge()">确定</button>
+					</div>
+                </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+    <script id="search-stature.html" type="text/ng-template">
+        <ion-modal-view class="modal-location-cond search-cond">
+            <ion-header-bar>
+                <span class="title">身高</span>
+            </ion-header-bar>
+            <ion-content class="overflow-hide">
+                <div class="ios-scroll-select">
+                    <div class="row row-no-padding">
+                        <div class="sel-col text-center">							
+							<ion-item class="item item-input item-select">
+								<div class="input-label">&nbsp;</div>
+								<select ng-model="sel_stature.from_stature" ng-options="item.value as item.label for item in conditions.statures.from_statures" ng-change="reload_stature()">
+								</select>
+							</ion-item>
+                        </div>
+                        <div class="sel-col text-center"><i class="icon ion-minus"></i></div>
+                        <div class="sel-col text-center">
+							<ion-item class="item item-input item-select">
+								<div class="input-label">&nbsp;</div>
+								<select ng-model="sel_stature.to_stature" ng-options="item.value as item.label for item in conditions.statures.to_statures">
+								</select>
+							</ion-item>
+                        </div>
+                    </div>
+					<div class="buttons">
+						<button class="modal-search-cond-save-btn" ng-click="cancelModal('stature')">取消</button>
+						<button class="modal-search-cond-save-btn" ng-click="confirmStature()">确定</button>
+					</div>
+                </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+</ion-view>

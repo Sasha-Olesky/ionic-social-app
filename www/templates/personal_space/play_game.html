@@ -1,0 +1,17 @@
+<ion-header-bar class="background-positive">
+	<button class="button button-icon ion-ios-arrow-back" ng-click="cancelGame(0)"></button>
+	<h1 class="title account-title" ng-class="marginleft">双人游戏</h1>
+</ion-header-bar>
+<ion-view class="play-game">  
+  <ion-content> 
+	<p>{{personal.username}}</p>
+	<div class="game-screen" ng-style="{maxHeight:maxGameHeight}">
+		<img src="img/personal_space/play_game.jpg" ng-style="{height:maxGameHeight}">
+	</div>
+	<div class="buttons">
+		<button class="button background-positive button-positive" ng-click="cancelGame(1)">送礼物</button>	
+		<button class="button background-positive button-positive" ng-click="cancelGame(2)">表情</button>	
+		<button class="button background-positive button-positive" ng-click="cancelGame(3)">视频</button>	
+	</div>
+  </ion-content>
+</ion-view>

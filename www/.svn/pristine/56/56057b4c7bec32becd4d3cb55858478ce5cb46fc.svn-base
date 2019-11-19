@@ -1,0 +1,12 @@
+
+<ion-view view-title="注册">
+    <ion-content>
+        <div class="regContentView text-center">
+            <h2>Hello,你的手机号码是多少？</h2>
+            <p>不必担心，我们不会给你发送垃圾信息</p>
+            <input type="tel" maxlength="11" id="phone" ng-model="new_user.phone" placeholder="手机号码" class="text-center">
+            <div class="warp-next-btn text-right"><button ng-click="nextToPassword()">下一步</button></div>
+        </div>
+    </ion-content>
+
+</ion-view>

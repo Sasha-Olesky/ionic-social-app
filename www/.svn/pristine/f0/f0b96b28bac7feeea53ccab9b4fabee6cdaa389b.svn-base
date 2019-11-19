@@ -1,0 +1,19 @@
+<ion-view class="gifts">  
+  <ion-content lazy-scroll>	
+	<ion-refresher
+		pulling-text="Pull to refresh..."
+		on-refresh="doRefresh()">
+	</ion-refresher>
+	<ion-scroll>
+		<ion-item class="item-thumbnail-left" ng-repeat="item in gifts" type="item-text-wrap">
+			<img image-lazy-src="{{item.photo}}" image-lazy-loader="ios"/>
+			<h2>{{item.name}} * {{item.quantity}}</h2>
+			<p>{{item.username}}<span class="item-note">{{item.send_date}}</span></p>
+		</ion-item>
+		<ion-infinite-scroll ng-if="more"
+			on-infinite="loadMore()"
+			distance="2%">
+		</ion-infinite-scroll>
+	</ion-scroll>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,28 @@
+<ion-header-bar class="background-positive">
+	<button class="button button-icon ion-ios-arrow-back" ng-click="$ionicGoBack()"></button>
+	<h1 class="title account-title" ng-class="marginleft">支付方式</h1>
+</ion-header-bar>
+<ion-view class="privilege">  
+  <ion-content>    
+	<ion-scroll style="max-height:{{max_list_height3}}px">
+		<div class="days_cost">
+			<p>购买 ： U币 {{coins}}天</p>
+			<p>金额 ： <span class="cost">{{coin_cost}}.00</span>元  RMB</p>
+		</div>
+		<div class="money_bag">选择支付方式</div>
+		<ion-list class="list payment_method">
+			<ion-item class="item-avatar" href="#">
+				<img src="img/account/ic_alipay.png"/>
+				<h2>支付宝支付</h2>
+			</ion-item>
+			<ion-item class="item-avatar" href="#">
+				<img src="img/account/ic_weixin.png"/>
+				<h2>微信支付</h2>
+			</ion-item>
+		</ion-list>
+		<div class="button-payment">
+			<button class="button background-positive button-positive">确认支付</button>
+		</div>
+	<ion-scroll>
+  </ion-content>
+</ion-view>

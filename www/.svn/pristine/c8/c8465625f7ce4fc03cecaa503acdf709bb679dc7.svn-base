@@ -1,0 +1,5 @@
+﻿<div class="sign-popup">
+	<button class="sign-popup-title button button-full icon-left ion-chevron-left" ng-click="sign_close()">签到</button>
+	<p>每日签到赚取10积分，每天只能签到一次</p>
+	<button class="sign-button button button-full button-light icon-right ion-chevron-right" ng-click="sign_close()">签到成功</button>
+</div>

@@ -1,0 +1,18 @@
+<ion-header-bar align-title="center" class="background-positive">	
+	<div class="buttons">
+		<button class="button button-icon ion-ios-arrow-back" ng-click="$ionicGoBack()"></button>
+    </div>
+	<h1 class="title">年龄</h1>	
+	<div class="buttons">
+        <button class="button button-icon" ng-click="nextToJob(true)" class="btn-public">跳过</button>
+    </div>
+</ion-header-bar>
+<ion-view view-title="年龄">
+    <ion-content>
+        <div class="regContentView text-center">
+            <h2>你的年龄是多少呢？</h2>
+            <input type="date" class="text-center input-birthday" ng-model="new_user.birthday">
+            <div class="warp-next-btn text-right"><button ng-click="nextToJob(false)">下一步</button></div>
+        </div>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,52 @@
+<ion-view class="personal-space">  
+  <ion-content>    
+	<div class="profile-box">
+		<h2><img src="img/personal_space/ic_heart.png"/>内心独白</h2>
+		<ion-list>
+			<div class="radio-group">
+				<ion-radio ng-model="personal.monologue" ng-value="'m1'">叶子的飘离，是风的追求，还是树的不挽留？</ion-radio>
+				<ion-radio ng-model="personal.monologue" ng-value="'m2'">叶子的飘离，是风的追求，还是树的不挽留？</ion-radio>
+				<ion-radio ng-model="personal.monologue" ng-value="'m3'">叶子的飘离，是风的追求，还是树的不挽留？</ion-radio>
+				<ion-radio ng-model="personal.monologue" ng-value="'m4'">叶子的飘离，是风的追求，还是树的不挽留？</ion-radio>
+			</div>
+		</ion-list>
+	</div>
+	<div class="profile-box dinformations">
+		<h2><img src="img/personal_space/ic_note.png"/>详细资料</h2>
+		<ion-list>
+			<ion-item class="item" ng-repeat="dinformation in personal.dinformations">
+				{{dinformation.label}}<span class="item-note">{{dinformation.value}}</span>
+			</ion-item>
+		</ion-list>
+	</div>
+	<div class="profile-box contact-information">
+		<h2><img src="img/personal_space/ic_phone.png"/>联系方式</h2>
+		<ion-list>
+			<div class="item item-input">
+				<span class="input-label">QQ：</span>
+				<input type="{{personal.qq.type}}" name="qq" ng-model="personal.qq.value">
+				<div class="other-button">
+					<span class="item-note">升级VIP可见</span>
+					<button class="button font-positive button-clear" ng-click="toggleQQ()">（点击查看）</button>
+				</div>
+			</div>
+			<div class="item item-input">
+				<span class="input-label">手机号：</span>
+				<input type="{{personal.phone.type}}" name="phone" ng-model="personal.phone.value">
+				<div class="other-button">
+					<span class="item-note">升级VIP可见</span>
+					<button class="button font-positive button-clear" ng-click="togglePhone()">（点击查看）</button>
+				</div>
+			</div>		
+		</ion-list>
+	</div>
+	<div class="profile-box dinformations">
+		<h2><img src="img/personal_space/ic_group.png"/>征友条件</h2>
+		<ion-list>
+			<ion-item class="item" ng-repeat="pcondition in personal.pconditions">
+				{{pcondition.label}}<span class="item-note">{{pcondition.value}}</span>
+			</ion-item>
+		</ion-list>
+	</div>
+  </ion-content>
+</ion-view>

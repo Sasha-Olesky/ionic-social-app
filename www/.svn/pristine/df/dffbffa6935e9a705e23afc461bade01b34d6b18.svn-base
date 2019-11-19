@@ -1,0 +1,221 @@
+angular.module('starter.search', [])
+.controller('SearchCtrl', function($scope,$rootScope,Session,$ionicLoading, APIManager,$ionicModal, $state){
+    $scope.$on('$ionicView.beforeEnter', function() {
+		$scope.$emit('child', true);
+	});
+	$scope.$on('$stateChangeStart', function() {
+		$scope.$emit('child', true);		
+	});
+	$scope.condLocation = [
+        {location:'不限'},
+        {location:'安徽'},
+        {location:'中国澳门'},
+        {location:'北京'},
+        {location:'重庆'},
+        {location:'福建'},
+        {location:'广东'},
+        {location:'甘肃'},
+        {location:'广西'},
+        {location:'贵州'},
+        {location:'湖北'},
+        {location:'河北'},
+        {location:'黑龙江'},
+        {location:'湖南'},
+        {location:'河南'},
+        {location:'海南'},
+        {location:'吉林'},
+        {location:'江苏'},
+        {location:'江西'},
+        {location:'辽宁'},
+        {location:'内蒙古'},
+        {location:'宁夏'},
+        {location:'青海'},
+        {location:'四川'},
+        {location:'山东'},
+        {location:'上海'},
+        {location:'陕西'},
+        {location:'山西'},
+        {location:'天津'},
+        {location:'中国台湾'},
+        {location:'西藏'},
+        {location:'中国香港'},
+        {location:'新疆'},
+        {location:'云南'},
+        {location:'浙江'}
+    ];
+    $scope.selCurLocation = 0;
+    $scope.nextCurLocation = 1;
+    $scope.location =  $scope.condLocation[0].location;
+    $scope.upSelLocation = function(){
+        $scope.selCurLocation = $scope.selCurLocation - 1;
+        $scope.nextCurLocation = $scope.selCurLocation + 1;
+        if($scope.selCurLocation == -1){
+            $scope.selCurLocation = $scope.condLocation.length -1;
+            $scope.nextCurLocation = 0;
+        }
+    }
+    $scope.downSelLocation = function(){
+        $scope.selCurLocation = $scope.selCurLocation + 1;
+        $scope.nextCurLocation = $scope.selCurLocation + 1;
+        $scope.nextCurLocation = $scope.nextCurLocation % $scope.condLocation.length;
+        if($scope.selCurLocation == $scope.condLocation.length){
+            $scope.selCurLocation = 0;
+            $scope.nextCurLocation = 1;
+        }
+    }
+
+    $scope.selCurLowAge = 0;
+    $scope.selCurHighAge = 0;
+    $scope.age = "不限";
+    $scope.upLowAge = function(){
+        $scope.selCurLowAge = ($scope.selCurLowAge - 1) % 100;
+        if($scope.selCurLowAge == 17)
+            $scope.selCurLowAge = 0;
+        if($scope.selCurLowAge < 0)
+            $scope.selCurLowAge = 99;
+    }
+    $scope.downLowAge = function(){
+        $scope.selCurLowAge = ($scope.selCurLowAge + 1) % 100;
+        if($scope.selCurLowAge == 1) $scope.selCurLowAge = 18;
+    }
+
+    $scope.upHighAge = function(){
+        $scope.selCurHighAge = ($scope.selCurHighAge - 1) % 100;
+        if($scope.selCurHighAge == 17)
+            $scope.selCurHighAge = 0;
+        if($scope.selCurHighAge < 0)
+            $scope.selCurHighAge = 99;
+    }
+    $scope.downHighAge = function(){
+        $scope.selCurHighAge = ($scope.selCurHighAge + 1) % 100;
+        if($scope.selCurHighAge == 1) $scope.selCurHighAge = 18;
+    }
+    $scope.condHeight = [
+        {height:'无限'},
+        {height:'165'},
+        {height:'170'},
+        {height:'175'},
+        {height:'180'},
+        {height:'185'}
+    ];
+    $scope.curSelLowHeight = 0;
+    $scope.nextLowHeight = 1;
+    $scope.upLowHeight = function () {
+        $scope.curSelLowHeight = $scope.curSelLowHeight - 1;
+        $scope.nextLowHeight = $scope.nextLowHeight + 1;
+        if($scope.curSelLowHeight == -1){
+            $scope.curSelLowHeight = $scope.condHeight.length -1;
+            $scope.nextLowHeight = 0;
+        }
+
+    }
+    $scope.downLowHeight = function(){
+        $scope.curSelLowHeight = $scope.curSelLowHeight + 1;
+        $scope.nextLowHeight = $scope.curSelLowHeight + 1;
+        $scope.nextLowHeight = $scope.nextLowHeight % $scope.condHeight.length;
+        if($scope.curSelLowHeight == $scope.condHeight.length){
+            $scope.curSelLowHeight = 0;
+            $scope.nextLowHeight = 1;
+        }
+    }
+    $scope.curSelHighHeight = 0;
+    $scope.nextHighHeight = 1;
+    $scope.upHighHeight = function(){
+        $scope.curSelHighHeight = $scope.curSelHighHeight - 1;
+        $scope.nextHighHeight = $scope.curSelHighHeight + 1;
+        if($scope.curSelHighHeight == -1){
+            $scope.curSelHighHeight = $scope.condHeight.length -1;
+            $scope.nextHighHeight = 0;
+        }
+    }
+    $scope.downHighHeight = function(){
+        $scope.curSelHighHeight = $scope.curSelHighHeight + 1;
+        $scope.nextHighHeight = $scope.curSelHighHeight + 1;
+        $scope.nextHighHeight = $scope.nextHighHeight % $scope.condHeight.length;
+        if($scope.curSelHighHeight == $scope.condHeight.length){
+            $scope.curSelHighHeight = 0;
+            $scope.nextHighHeight = 1;
+        }
+    }
+    $ionicModal.fromTemplateUrl('search-location.html', {
+        scope: $scope,
+        animation: 'slide-in-down'
+    }).then(function(modal) {
+        $scope.locationmodal = modal;
+    });
+    $scope.showLocationModal = function(){
+        $scope.locationmodal.show();
+    }
+    $scope.hideLocationModal = function(){
+        $scope.location = $scope.condLocation[$scope.selCurLocation].location;
+        $scope.locationmodal.hide();
+    }
+    $ionicModal.fromTemplateUrl('search-age.html', {
+        scope: $scope,
+        animation: 'slide-in-down'
+    }).then(function(modal) {
+        $scope.agemodal = modal;
+    });
+    $scope.showAgeModal = function(){
+        $scope.agemodal.show();
+    }
+    $scope.hideAgeModal = function(){
+        if($scope.selCurLowAge <= $scope.selCurHighAge){
+            if($scope.selCurLowAge == 0)
+                $scope.age = "不限" + " - ";
+            else{
+                $scope.age = $scope.selCurLowAge + "岁 - ";
+            }
+            if($scope.selCurHighAge == 0){
+                if($scope.selCurLowAge == 0)
+                    $scope.age = "不限";
+                else
+                    $scope.age += "不限";
+            }else{
+                $scope.age += $scope.selCurHighAge + "岁";
+            }
+            $scope.agemodal.hide();
+        }
+    }
+    $ionicModal.fromTemplateUrl('search-height.html', {
+        scope: $scope,
+        animation: 'slide-in-down'
+    }).then(function(modal) {
+        $scope.heightmodal = modal;
+    });
+    $scope.showHeightModal = function(){
+        $scope.heightmodal.show();
+    }
+    $scope.height = '不限';
+    $scope.hideHeightModal = function(){
+        low = $scope.curSelLowHeight;
+        high = $scope.curSelHighHeight;
+        if(high == 0) high = 100;
+        if(low<=high){
+            if($scope.curSelLowHeight == 0 && $scope.curSelHighHeight == 0)
+                $scope.height = "不限";
+            else{
+                $scope.height = $scope.condHeight[$scope.curSelLowHeight].height;
+                if($scope.curSelLowHeight != 0)
+                    $scope.height +=  "cm - ";
+                else
+                    $scope.height += " - ";
+
+                $scope.height += $scope.condHeight[$scope.curSelHighHeight].height;
+                if($scope.curSelHighHeight != 0) $scope.height += "cm";
+            }
+            $scope.heightmodal.hide();
+        }
+    }
+    $scope.search = function(){
+        $rootScope.location = $scope.location;
+        $rootScope.fromPage = $scope.selCurLowAge
+        $rootScope.toPage = $scope.selCurHighAge
+        $rootScope.from_stature = $scope.curSelLowHeight;
+        $rootScope.to_stature = $scope.curSelHighHeight;
+        $state.go('tab.home');
+    }
+    $scope.navBack = function(){
+        $state.go('tab.home');
+    }
+});

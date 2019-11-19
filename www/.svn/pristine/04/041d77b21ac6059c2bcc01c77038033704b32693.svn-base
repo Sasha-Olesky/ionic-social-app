@@ -1,0 +1,24 @@
+<ion-header-bar class="background-positive present-shop">
+	<button class="button button-icon ion-ios-arrow-back" ng-click="go_back()"></button>
+	<h1 class="title account-title" ng-class="marginleft">礼物商店</h1>
+</ion-header-bar>
+<ion-view class="present-shop">  
+  <ion-content>		
+	<ion-scroll class="product-scroll" ng-style="{maxHeight:maxScrollHeight}">
+		<ion-item ng-repeat="item in gifts" ng-click="goBuyGift($index)">
+			<img ng-src="{{item.photo}}" class="img-responsive"/>
+			<p class="product-name">{{item.name}}</p>
+			<p class="product-gold"><span>{{item.gold_coins}}</span><img src="img/personal_space/ic_gold.png"/></p>
+		</ion-item>
+		<ion-infinite-scroll ng-if="more"
+			on-infinite="loadMore()"
+			distance="2%">
+		</ion-infinite-scroll>
+	</ion-scroll>
+	<div class="top-curtain"></div>
+	<div class="buy-product">
+		<p>我的金币：<span>{{user.gold_coins}}</span><img src="img/personal_space/ic_gold.png"/></p>
+		<button ng-click="buyConfirm()">充值</button>
+	</div>
+  </ion-content>
+</ion-view>

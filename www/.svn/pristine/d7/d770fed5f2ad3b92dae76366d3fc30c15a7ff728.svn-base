@@ -1,0 +1,30 @@
+angular.module('starter.alert', [])
+.controller('AlertCtrl', function($scope,$state){
+    $scope.$on('$ionicView.beforeEnter', function() {
+		$scope.$emit('child', true);
+	});
+	$scope.$on('$stateChangeStart', function() {
+		$scope.$emit('child', true);		
+	});
+	$scope.notify_items = [
+        {userid:'1',photo:'img/account/follow_photo1.jpg',name:'珊珊', message:'访问了您的主页。',time:'刚刚'},
+        {userid:'2',photo:'img/account/follow_photo2.jpg',name:'GXY', message:'访问了您的主页。',time:'13:30'},
+        {userid:'3',photo:'img/account/follow_photo3.jpg',name:'clear',message:'访问了您的主页。',time:'14:30'},
+        {userid:'4',photo:'img/account/follow_photo4.jpg',name:'下雨了', message:'访问了您的主页。',time:'14:40'},
+        {userid:'5',photo:'img/account/follow_photo5.jpg',name:'小清新', message:'访问了您的主页。',time:'14:45'},
+        {userid:'6',photo:'img/account/follow_photo5.jpg',name:'小清新', message:'访问了您的主页。',time:'15:30'},
+        {userid:'7',photo:'img/account/follow_photo6.jpg',name:'QQWE', message:"访问了您的主页。",time:'15:50'}
+    ];
+    $scope.received_items = [
+        {userid:'1',photo:'img/account/follow_photo1.jpg',name:'珊珊', message:'你爱看电影不，我们一起看电影吧！',time:'12:30'},
+        {userid:'2',photo:'img/account/follow_photo2.jpg',name:'GXY', message:'我发其他照片给你吧，你有微信吗？',time:'13:30'},
+        {userid:'3',photo:'img/account/follow_photo3.jpg',name:'clear',message:'应该可以吧。',time:'14:30'},
+        {userid:'4',photo:'img/account/follow_photo4.jpg',name:'下雨了', message:'这是秘密。',time:'14:40'},
+        {userid:'5',photo:'img/account/follow_photo5.jpg',name:'小清新', message:'不告诉你。',time:'14:45'},
+        {userid:'6',photo:'img/account/follow_photo5.jpg',name:'小清新', message:'微信聊吧，合适就见面吧',time:'15:30'},
+        {userid:'7',photo:'img/account/follow_photo6.jpg',name:'QQWE', message:"很无聊",time:'15:50'}
+    ];
+    $scope.navBack = function(){
+        $state.go('tab.home');
+    }
+});

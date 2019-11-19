@@ -1,0 +1,25 @@
+<ion-view class="personal-space">
+  <ion-content>    
+	<ion-list>
+		<ion-item ng-repeat="item in personal.dynamics">
+			<div class="dynamics-summary">
+				<img ng-src="{{item.photo}}" class="avatar"/>
+				<h2 class="font2">{{item.name}}<i class="icon assertive" ng-class="item.ion"></i>
+				<a href="#" class="pull-right"><i class="icon ion-chevron-down"></i></a></h2>
+				<p>{{item.time}}</p>
+			</div>
+			<div class="desc" ng-bind-html="item.description"></div>
+			<div class="buttons">
+				<button class="world"><i class="icon ion-ios-world"></i></button>
+				<button class="thumbsup"><i class="icon ion-thumbsup"></i></button>
+				<button class="chatbox"><i class="icon ion-chatbox-working"></i></button>
+			</div>
+			<div class="like">
+				<img src="img/dynamics/like_on.png" class="icon-like"/>
+				<img ng-repeat="img in item.like" ng-src="{{img.src}}" class="avatar"/>
+			</div>
+			<div class="search-result" ng-bind-html="item.search"></div>
+		</ion-item>
+	</ion-list>
+  </ion-content>
+</ion-view>

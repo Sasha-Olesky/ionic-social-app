@@ -1,0 +1,30 @@
+<ion-header-bar align-title="center" class="background-positive">	
+	<div class="buttons">
+		<button class="button button-icon ion-ios-arrow-back" ng-click="$ionicGoBack()"></button>
+    </div>
+	<h1 class="title">用户资料</h1>	
+	<div class="buttons">
+        <button class="button button-icon" ng-click="nextToCharacter(true)" class="btn-public">跳过</button>
+    </div>
+</ion-header-bar>
+<ion-view view-title="用户资料">    
+    <ion-content>
+        <div class="regContentView text-center">
+            <div class="userinfo">
+                <div class="annoance">
+                    <img src="img/login/actress.png">
+                    <div class="talking">
+                        <img src="img/login/talk_tag.png">
+                        <span>帅哥，你的兴趣爱好是什么？</span>
+                    </div>
+                </div>
+                <div style="clear:both;"></div>
+                <ion-list class="gridview">
+                    <div class="hobby" ng-repeat="item in hobbies" ng-click="selHobby($index)" ng-class="{true:'active'}[cur_checked[$index]]">{{item.hobby}}</div>
+                </ion-list>
+            </div>
+            <div style="clear:both;"></div>
+            <div class="warp-next-btn text-right"><button ng-click="nextToCharacter(false)">下一步</button></div>
+        </div>
+    </ion-content>
+</ion-view>

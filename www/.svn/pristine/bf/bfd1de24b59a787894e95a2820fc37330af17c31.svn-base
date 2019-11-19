@@ -1,0 +1,24 @@
+<ion-view view-title="动态">
+    <ion-nav-buttons side="left">
+        <a ng-click="navBack()">
+            <i class="icon ion-chevron-left nav_back_force"></i>
+        </a>
+    </ion-nav-buttons>
+
+    <ion-tabs class="tabs tabs-top dynamic-subtab">
+        <ion-tab title="通知" href="#/alert/notify">
+            <!-- Tab 1 content -->
+            <ion-nav-view name="tab-alert-notify"></ion-nav-view>
+        </ion-tab>
+        <ion-tab title="私信" href="#/alert/letter">
+            <!-- Tab 2 content -->
+            <ion-nav-view name="tab-alert-letter"></ion-nav-view>
+        </ion-tab>
+        <ion-tab title="忽略全部" href="#/alert/ignore">
+            <!-- Tab 2 content -->
+            <ion-nav-view name="tab-alert-ignore"></ion-nav-view>
+        </ion-tab>
+    </ion-tabs>
+    <ion-content>
+    </ion-content>
+</ion-view>

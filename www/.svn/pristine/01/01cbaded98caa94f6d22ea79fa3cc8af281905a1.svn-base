@@ -1,0 +1,16 @@
+﻿<div class="product-popup">
+	<div class="product-info">
+		<h3>{{gift.data.name}}</h3>
+		<img ng-src="{{gift.data.photo}}" class="img-responsive"/>
+		<div class="quantity">
+			<button class="minus-button" ng-click="decreaseQuantity()"><i class="icon ion-minus"></i></button>
+			<input type="text" ng-model="gift.quantity"/>
+			<button class="plus-button" ng-click="increaseQuantity()"><i class="icon ion-plus"></i></button>
+		</div>
+	</div>
+	<p class="product-gold"><span>{{gift.data.gold_coins*gift.quantity}}</span><img src="img/personal_space/ic_gold.png"/></p>
+	<div class="buttons">
+		<button ng-click="gift_cancel()">取消</button>
+		<button ng-click="gift_confirm()">赠送</button>
+	</div>
+</div>

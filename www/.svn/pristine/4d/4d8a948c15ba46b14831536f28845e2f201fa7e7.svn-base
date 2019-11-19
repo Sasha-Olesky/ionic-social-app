@@ -1,0 +1,19 @@
+<ion-view view-title="昵称, 照片">
+    <ion-content>
+        <div class="regContentView text-center">
+            <h2>什么是您的昵称？</h2>            
+            <input type="text" id="nickname" ng-model="new_user.username" placeholder="昵称" class="text-center">
+            <h2>请选择您的照片</h2>
+			<div class="photo">
+				<div class="photo-item" ng-hide="new_user.photo.src==''?true:false">
+					<img ng-src="{{new_user.photo.src}}"/>
+					<a ng-click="new_user.photo={}" class="close"><img src="img/public/close.png"></a>
+				</div>				
+				<ion-button class="btn_add_photo" ng-click="takePhoto()" ng-show="new_user.photo.src==''?true:false">
+					<img src="img/public/plus.png">
+				</ion-button>
+			</div>
+            <div class="warp-next-btn text-right"><button ng-click="nextToGender()">下一步</button></div>
+        </div>
+    </ion-content>
+</ion-view>

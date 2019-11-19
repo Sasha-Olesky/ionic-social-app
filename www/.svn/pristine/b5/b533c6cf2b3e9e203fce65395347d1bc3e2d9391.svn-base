@@ -1,0 +1,26 @@
+<ion-header-bar class="background-positive">
+	<button class="button button-icon ion-ios-arrow-back" ng-click="go_back()"></button>
+	<h1 class="title account-title" ng-class="marginleft">购买金币</h1>
+</ion-header-bar>
+<ion-view class="membership">  
+  <ion-content>    
+	<ion-scroll style="max-height:{{max_list_height3}}px">
+		<div class="membership_buttons">
+			<button class="button background-positive button-positive" ng-click="goCoinPayment(1500)">U币<span>1500枚</span>，￥98.00</button>
+			<button class="button background-positive button-positive" ng-click="goCoinPayment(3000)">U币<span>3000枚</span>，￥198.00</button>
+			<button class="button background-positive button-positive vip" ng-click="goCoinPayment(6000)">U币<span>6000枚</span>，￥398.00</button>
+		</div>
+		<h1 class="buy-coins">U币的作用</h1>
+		<ion-item class="item-thumbnail-left">
+			<img src="img/account/ic_present.png"/>
+			<h2>赠送礼物</h2>
+			<p>购买金币可以给你喜欢的人赠送礼物</p>
+		</ion-item>
+		<ion-item class="item-thumbnail-left">
+			<img src="img/account/ic_cart2.png"/>
+			<h2>U币商城</h2>
+			<p>赠送的或礼物得到的U币，可在U币商城购买任何产品</p>
+		</ion-item>		
+	<ion-scroll>
+  </ion-content>
+</ion-view>

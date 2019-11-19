@@ -1,0 +1,45 @@
+angular.module('starter.session', [])
+.factory('Session', function (APIManager) {
+	var setSession = function(name, value) {
+		if (window.localStorage[name]) {
+			window.localStorage.removeItem(name);
+		}
+		window.localStorage[name] = JSON.stringify(value);
+	};
+	var getSession = function(name) {
+		var val = null;
+		if (window.localStorage[name]) {
+			val = JSON.parse(window.localStorage[name]);
+		}
+		return val;
+	};
+	var clearSession = function(name) {
+		if (window.localStorage[name]) {
+			window.localStorage.removeItem(name);
+		}
+	};
+    return {
+		setSession : setSession,
+		getSession : getSession,
+		clearSession : clearSession,
+        isLoggedIn: function () {
+			var _user = getSession('user');
+            return _user ? true : false;
+        },
+        logout: function () {
+            clearSession('user');
+			clearSession('list_dependents');
+        },
+		register : function(phone) {
+			var url = 'test';
+			var data = {phone : phone}
+			APIManager.post(url, data).then(function (response){
+				alert(response.data.phone);
+			});
+			APIManager.get('test2', {phone : '123456789'}).then(function (response){
+				console.log(response.data);
+			});			
+			
+		}
+    }
+});

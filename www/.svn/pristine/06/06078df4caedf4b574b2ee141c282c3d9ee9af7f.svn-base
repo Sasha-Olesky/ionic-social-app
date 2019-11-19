@@ -1,0 +1,116 @@
+angular.module('starter.services', [])
+
+.factory('APIManager', function($http) {
+	var base_url = 'http://192.168.1.108/social_app/api/';
+	
+	var getPostParams = function ObjecttoParams(obj){
+	  var p = [];
+	  for (var key in obj){
+		p.push('social_' + key + '=' + encodeURIComponent(obj[key]));
+	  }
+	  return p.join('&');
+	};
+	var getGetParams = function ObjecttoParams(obj){
+	  var p = [];
+	  for (var key in obj){
+		p.push('social_' + key + '/' + encodeURIComponent(obj[key]));
+	  }
+	  return p.join('/');
+	};
+	
+	return {
+		post : function(url, param) {
+			var link = base_url + url;
+			return $http({
+				method: 'POST',
+				url: link,				
+				data : getPostParams(param),
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			});			
+		},
+		get : function(url, param) {
+			var link = base_url + url;
+			if (param) link += '/' + getGetParams(param);
+			return $http({
+				method: 'GET',
+				url: link,
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			});			
+		}
+	}
+	
+})
+
+.factory('Chats', function() {
+  // Might use a resource here that returns a JSON array
+
+  // Some fake testing data
+  var chats = [{
+    id: 0,
+    name: 'Ben Sparrow',
+    lastText: 'You on your way?',
+    face: 'img/ben.jpg'
+  }, {
+    id: 1,
+    name: 'Max Lynx',
+    lastText: 'Hey, it\'s me',
+    face: 'img/max.jpg'
+  }, {
+    id: 2,
+    name: 'Adam Bradleyson',
+    lastText: 'I should buy a boat',
+    face: 'img/adam.jpg'
+  }, {
+    id: 3,
+    name: 'Perry Governor',
+    lastText: 'Look at my mukluks!',
+    face: 'img/perry.jpg'
+  }
+  , {
+    id: 4,
+    name: 'Mike Harrington',
+    lastText: 'This is wicked good ice cream.',
+    face: 'img/mike.jpg'
+  }
+  , {
+    id: 5,
+    name: 'Mike Harrington',
+    lastText: 'This is wicked good ice cream.',
+    face: 'img/mike.jpg'
+  }
+  , {
+    id: 6,
+    name: 'Mike Harrington',
+    lastText: 'This is wicked good ice cream.',
+    face: 'img/mike.jpg'
+  }
+  , {
+    id: 7,
+    name: 'Mike Harrington',
+    lastText: 'This is wicked good ice cream.',
+    face: 'img/mike.jpg'
+  }
+  , {
+    id: 8,
+    name: 'Mike Harrington',
+    lastText: 'This is wicked good ice cream.',
+    face: 'img/mike.jpg'
+  }];
+
+  return {
+    all: function() {
+      return chats;
+    },
+    remove: function(chat) {
+      chats.splice(chats.indexOf(chat), 1);
+    },
+    get: function(chatId) {
+      for (var i = 0; i < chats.length; i++) {
+        if (chats[i].id === parseInt(chatId)) {
+          return chats[i];
+        }
+      }
+      return null;
+    }
+  };
+});

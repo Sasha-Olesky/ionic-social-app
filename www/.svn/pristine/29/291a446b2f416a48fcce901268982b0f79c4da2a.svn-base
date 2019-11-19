@@ -1,0 +1,20 @@
+<ion-view view-title="动态">
+    <ion-nav-buttons side="left">
+        <a ng-click="doSomething()">
+            <img src="img/home/bell.png">
+        </a>
+    </ion-nav-buttons>
+
+    <ion-tabs class="tabs tabs-top dynamic-subtab">
+        <ion-tab title="广场" href="#/tab/dynamics/square">
+            <!-- Tab 1 content -->
+            <ion-nav-view name="tab-dynamic-square"></ion-nav-view>
+        </ion-tab>
+        <ion-tab title="朋友圈" href="#/tab/dynamics/friend">
+            <!-- Tab 2 content -->
+            <ion-nav-view name="tab-dynamic-friend"></ion-nav-view>
+        </ion-tab>
+    </ion-tabs>
+    <ion-content>
+    </ion-content>
+</ion-view>

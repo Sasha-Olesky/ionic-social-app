@@ -1,0 +1,16 @@
+<ion-header-bar align-title="center" class="background-positive">	
+	<div class="buttons">
+		<button class="button button-icon ion-ios-arrow-back" ng-click="$ionicGoBack()"></button>
+    </div>
+	<h1 class="title">设置密码</h1>		
+</ion-header-bar>
+<ion-view view-title="设置密码">
+    <ion-content>
+        <div class="regContentView text-center">
+            <h2>你需要设定一个密码</h2>
+            <p>请确保密码至少4个字符</p>
+            <input type="password" id="password" ng-model="new_user.password" placeholder="密码" class="text-center">
+            <div class="warp-next-btn text-right"><button ng-click="nextToNickname()">下一步</button></div>
+        </div>
+    </ion-content>
+</ion-view>

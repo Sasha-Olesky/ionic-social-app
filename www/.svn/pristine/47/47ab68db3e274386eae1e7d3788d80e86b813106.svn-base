@@ -1,0 +1,16 @@
+<ion-view class="gifts">  
+  <ion-content>	
+	<ion-scroll style="max-height:{{max_list_height2}}px">
+		<ion-item class="item-thumbnail-left" ng-repeat="item in gifts" type="item-text-wrap">
+			<img ng-src="{{item.photo}}"/>
+			<h2>{{item.name}} * {{item.quantity}}</h2>
+			<p>{{item.username}}
+			<span class="item-note">{{item.send_date}}</span>
+		</ion-item>
+		<ion-infinite-scroll ng-if="more"
+			on-infinite="loadMore()"
+			distance="2%">
+		</ion-infinite-scroll>
+	</ion-scroll>
+  </ion-content>
+</ion-view>

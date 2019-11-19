@@ -1,0 +1,35 @@
+<ion-view hide-nav-bar="true" class="loginview">
+    <div class="login-warp">
+        <div class="item-block">
+            <a ng-click="reset_phone()" class="ico-helper"><img src="img/login/ico-dropdown.png"></a>
+            <label class="item item-input">
+                <span class="input-label"><img src="img/login/ico-username.png" alt="用户名"></span>
+                <input type="tel" maxlength="11" class="active-input" placeholder="手机" ng-model="user.phone">
+            </label>
+        </div>
+        <div class="item-block">
+            <a ng-click="reset_password()" class="ico-helper" ng-hide="user.hasValue"><img src="img/login/ico-empty.png"></a>
+            <label class="item item-input">
+                <span class="input-label"><img src="img/login/ico-password.png" alt="密码"></span>
+                <input type="password" class="active-input" placeholder="请输入密码" ng-model="user.password" >
+            </label>
+
+        </div>
+        <div class="item-block">
+            <button class="btnLogin" ng-click="login()">
+                登录
+            </button>
+        </div>
+        <div class="item-block thirdparty text-right">
+            <span>第三方登录 : </span>
+            <span class="btnbody">
+                <a href="#"><img src="img/login/ico-qq.png" alt="QQ"></a>
+                <a href="#"><img src="img/login/ico-wechat.png" alt="微信"></a>
+            </span>
+        </div>        
+    </div>
+	<div class="other-link hide-on-keyboard-open">
+		<a href="#">忘记密码</a> |
+		<a ng-click="register()">注册</a>
+	</div>
+</ion-view>

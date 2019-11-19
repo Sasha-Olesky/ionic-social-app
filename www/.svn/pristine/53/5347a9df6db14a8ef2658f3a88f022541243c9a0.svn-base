@@ -1,0 +1,14 @@
+<ion-header-bar class="background-positive">
+	<button class="button button-icon ion-ios-arrow-back" ng-click="$ionicGoBack()"></button>
+	<h1 class="title account-title" ng-class="marginleft">邀请Ta玩游戏</h1>
+</ion-header-bar>
+<ion-view class="funny-game padding">  
+  <ion-content class="padding">    
+	<div class="game-screen">
+		<img src="img/personal_space/funny_game.jpg" class="img-responsive">
+	</div>
+	<div class="buttons">
+		<button class="button background-positive button-positive" ng-click="play_game()">五子棋</button>	
+	</div>
+  </ion-content>
+</ion-view>

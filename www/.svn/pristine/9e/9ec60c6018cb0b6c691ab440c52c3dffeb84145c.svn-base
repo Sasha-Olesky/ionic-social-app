@@ -1,0 +1,20 @@
+﻿<ion-view view-title="最近在线">
+	<ion-nav-buttons side="left">
+      <a ng-click="nextToAlert()">
+		<img src="img/home/bell.png">	
+      </a>
+    </ion-nav-buttons>
+	<ion-nav-buttons side="right">
+      <a ng-click="nextToSearch()">
+		<img src="img/home/search.png">
+      </a>
+    </ion-nav-buttons>
+	
+	<ion-content lazy-scroll>
+		<ion-home-gallery ion-home-gallery-items="users"></ion-home-gallery>		
+        <ion-infinite-scroll ng-if="more"
+                on-infinite="loadMore()"
+                distance="2%">
+        </ion-infinite-scroll>
+    </ion-content>
+</ion-view>

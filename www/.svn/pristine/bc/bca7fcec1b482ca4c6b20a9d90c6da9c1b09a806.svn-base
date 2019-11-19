@@ -1,0 +1,454 @@
+angular.module('starter.account', [])
+.controller('accountCtrl', function($scope, $window, $state, $ionicScrollDelegate, $ionicPopup, Session, APIManager){
+	$scope.$on('$ionicView.beforeEnter', function() {
+		$scope.$emit('child', false);
+		if(!Session.isLoggedIn()){
+			$state.go('login', { param: 'account' });
+		}
+	});
+	
+	$scope.$on('$stateChangeStart', function() {
+		$scope.$emit('child', false);		
+	});
+	
+	//logout
+	$scope.logout = function(){
+		Session.logout();
+		$state.go('login');
+	};
+	$scope.go_state = function(state) {				
+		$state.go(state);
+	};
+	$scope.user = Session.getSession('user');
+	
+	if ($state.current.name == 'tab.account'){
+		var url = 'get_visitors';
+		var data = {userid:$scope.user.id};
+		APIManager.get(url, data).then(function (res){
+			$scope.visitors = res.data.visitors;			
+		});
+	}	
+	
+	$scope.sleft=function() {
+		$ionicScrollDelegate.scrollBy(-56, 0, true);
+	};
+	$scope.sright=function() {
+		$ionicScrollDelegate.scrollBy(56, 0, true);
+	};
+	
+	var mySign, mySuccess;
+	$scope.signConfirm = function() {
+		mySign = $ionicPopup.show({					
+			templateUrl: 'templates/account/sign_confirm.html',
+			scope: $scope
+		});
+	};	
+
+	$scope.signSuccess = function() {
+		mySign.close();
+		mySuccess = $ionicPopup.show({					
+			templateUrl: 'templates/account/sign_success.html',
+			scope: $scope
+		});
+	};
+	
+	$scope.sign_close = function() {
+		if(mySign) mySign.close();
+		if(mySuccess) mySuccess.close();
+	};	
+	
+	$scope.goPrivilege = function(days) {
+		$state.go('vip_privilege', {days:days});
+	};
+	
+	$scope.monologue = 'm1';
+	
+	$scope.max_list_height = getMaxHeight(235);	
+	$scope.max_list_height2 = getMaxHeight(140);
+	$scope.max_list_height3 = getMaxHeight(90);	
+	
+	function getMaxHeight(offset) {
+		return $window.innerHeight - offset
+	}
+
+	$scope.days = $state.params.days;
+	if (!$scope.days) $scope.days = '0';
+	switch ($scope.days) {
+		case '30':
+		$scope.privilege1 = true;
+		$scope.privilege2 = true;
+		$scope.privilege3 = false;
+		$scope.privilege4 = false;
+		$scope.privilege5 = false;
+		$scope.privilege6 = false;
+		$scope.cost = '98';
+		break;
+		case '180':
+		$scope.privilege1 = true;
+		$scope.privilege2 = true;
+		$scope.privilege3 = true;
+		$scope.privilege4 = true;
+		$scope.privilege5 = false;
+		$scope.privilege6 = false;
+		$scope.cost = '198';
+		break;
+		case '365':
+		$scope.privilege1 = true;
+		$scope.privilege2 = true;
+		$scope.privilege3 = true;
+		$scope.privilege4 = true;
+		$scope.privilege5 = true;
+		$scope.privilege6 = true;
+		$scope.cost = '398';
+		break;
+		default:
+		$scope.privilege1 = true;
+		$scope.privilege2 = false;
+		$scope.privilege3 = false;
+		$scope.privilege4 = false;
+		$scope.privilege5 = false;
+		$scope.privilege6 = false;
+		$scope.cost = '0';
+	}
+	$scope.goPayment = function() {
+		$state.go('payment', {days:$scope.days});
+	};
+	$scope.dinformations = [
+		{
+			field : 'constallation',
+			label : '星座',
+			value : '水瓶座',		
+			options : [
+				{label:'木瓶座', value:'木瓶座'},
+				{label:'水瓶座', value:'水瓶座'},
+				{label:'土瓶座', value:'土瓶座'},
+				{label:'火瓶座', value:'火瓶座'}
+			]
+		},
+		{
+			field : 'stature',
+			label : '身高',
+			value : '180',	
+			options : [
+				{label:'150以下', value:'以下'},
+				{label:'150cm', value:'150'},
+				{label:'160cm', value:'160'},
+				{label:'170cm', value:'170'},
+				{label:'180cm', value:'180'},
+				{label:'190cm', value:'190'},
+				{label:'190以上', value:'以上'}
+			]
+		},
+		{
+			field : 'weight',
+			label : '体重',
+			value : '51',		
+			options : [
+				{label:'40以下', value:'以下'},
+				{label:'41kg', value:'41'},
+				{label:'51kg', value:'51'},
+				{label:'61kg', value:'61'},
+				{label:'70kg', value:'70'},
+				{label:'70以上', value:'以上'}
+			]
+		},
+		{
+			field : 'job',
+			label : '职业',
+			value : '在校学生',		
+			options : [
+				{label:'在校学生', value:'在校学生'},
+				{label:'在校学生2', value:'在校学生2'}
+			]
+		},
+		{
+			field : 'income',
+			label : '收入',
+			value : '2000-5000',		
+			options : [
+				{label:'1000-2000', value:'1000-2000'},
+				{label:'2000-5000', value:'2000-5000'},
+				{label:'5000-10000', value:'5000-10000'}
+			]
+		},
+		{
+			field : 'child',
+			label : '是否想要小孩',
+			value : '大专',		
+			options : [
+				{label:'大专', value:'大专'},
+				{label:'大专2', value:'大专2'}
+			]
+		},
+		{
+			field : 'edu_background',
+			label : '学历',
+			value : '已购房',		
+			options : [
+				{label:'已购房', value:'已购房'},
+				{label:'购房', value:'购房'}
+			]
+		},
+		{
+			field : 'character',
+			label : '个性特征',
+			value : '要小孩',		
+			options : [
+				{label:'要小孩', value:'要小孩'},
+				{label:'不要小孩', value:'不要小孩'}
+			]
+		},
+		{
+			field : 'is_house',
+			label : '是否有房',
+			value : '可爱',		
+			options : [
+				{label:'可爱', value:'可爱'},
+				{label:'不可爱', value:'不可爱'}
+			]
+		},		
+		{
+			field : 'hobby',
+			label : '兴趣爱好',
+			value : '烹饪',		
+			options : [
+				{label:'烹饪', value:'烹饪'},
+				{label:'运动', value:'运动'},
+				{label:'电影', value:'电影'}
+			]
+		},
+		{
+			field : 'other_home',
+			label : '是否接受异地恋',
+			value : '能',		
+			options : [
+				{label:'能', value:'能'},
+				{label:'能2', value:'能2'}
+			]
+		},		
+		{
+			field : 'prefer',
+			label : '喜欢的异性类型',
+			value : '善解人意',		
+			options : [
+				{label:'善解人意', value:'善解人意'},
+				{label:'善解人意2', value:'善解人意2'}
+			]
+		},		
+	];
+	$scope.pconditions = [
+		{
+			field : 'height',
+			label : '身高',
+			value : '不限',		
+			options : [
+				{label:'不限', value:'不限'},
+				{label:'不限-不限', value:'不限-不限'},
+				{label:'不限2', value:'不限2'},
+				{label:'不限-不限2', value:'不限-不限2'}
+			]
+		},
+		{
+			field : 'income',
+			label : '收入',
+			value : '不限2',		
+			options : [
+				{label:'不限', value:'不限'},
+				{label:'不限-不限', value:'不限-不限'},
+				{label:'不限2', value:'不限2'},
+				{label:'不限-不限2', value:'不限-不限2'}
+			]
+		},
+		{
+			field : 'address',
+			label : '居住地',
+			value : '不限-不限',		
+			options : [
+				{label:'不限', value:'不限'},
+				{label:'不限-不限', value:'不限-不限'},
+				{label:'不限2', value:'不限2'},
+				{label:'不限-不限2', value:'不限-不限2'}
+			]
+		},
+		{
+			field : 'edu_background',
+			label : '最低学历',
+			value : '不限-不限2',		
+			options : [
+				{label:'不限', value:'不限'},
+				{label:'不限-不限', value:'不限-不限'},
+				{label:'不限2', value:'不限2'},
+				{label:'不限-不限2', value:'不限-不限2'}
+			]
+		},
+		{
+			field : 'age',
+			label : '年龄范围',
+			value : '不限-不限2',		
+			options : [
+				{label:'不限', value:'不限'},
+				{label:'不限-不限', value:'不限-不限'},
+				{label:'不限2', value:'不限2'},
+				{label:'不限-不限2', value:'不限-不限2'}
+			]
+		}
+	];
+	
+	$scope.cinformation = {
+		qq : {type:'password', value:''},
+		phone : {type:'password', value:''}
+	};
+	$scope.toggleQQ = function() {		
+		if ($scope.cinformation.qq.type == 'password') {
+			$scope.cinformation.qq.type = 'text';
+		} else {
+			$scope.cinformation.qq.type = 'password';
+		}
+	};
+	$scope.togglePhone = function() {		
+		if ($scope.cinformation.phone.type == 'password') {
+			$scope.cinformation.phone.type = 'text';
+		} else {
+			$scope.cinformation.phone.type = 'password';
+		}
+	};
+	$scope.tidings = [
+		{
+			photo:'img/account/tidings_photo.jpg',
+			name:'「哭&谁疼」',
+			gender : 0,
+			ion : 'ion-female',
+			time:'21:22:50',
+			description : "<p>债主大亨由此产生</p><img class='img img-responsive' src='img/account/tidings_img.jpg'/>"
+		},
+		{
+			photo:'img/account/tidings_photo.jpg',
+			name:'「哭&谁疼」',
+			gender : 0,
+			ion : 'ion-female',
+			time:'21:22:50',
+			description : "<p>债主大亨由此产生</p><img class='img img-responsive' src='img/account/tidings_img.jpg'/>"
+		}
+	];
+	
+	$scope.integral = {
+		cur_value : '2893883'
+	};
+	$scope.product_male_items = [
+		{id:'1', photo:'img/account/product1.jpg', name:'金炫科技', description:'金炫便捷式电动榨汁机', integral:'49'},
+		{id:'2', photo:'img/account/product1.jpg', name:'金炫科技', description:'金炫便捷式电动榨汁机', integral:'49'},
+		{id:'3', photo:'img/account/product1.jpg', name:'金炫科技', description:'金炫便捷式电动榨汁机', integral:'49'},
+		{id:'4', photo:'img/account/product1.jpg', name:'金炫科技', description:'金炫便捷式电动榨汁机', integral:'49'},
+		{id:'5', photo:'img/account/product1.jpg', name:'金炫科技', description:'金炫便捷式电动榨汁机', integral:'49'}
+	];
+	$scope.product_female_items = [
+		{id:'1', photo:'img/account/product1.jpg', name:'金炫科技', description:'金炫便捷式电动榨汁机', integral:'49'},
+		{id:'2', photo:'img/account/product1.jpg', name:'金炫科技', description:'金炫便捷式电动榨汁机', integral:'49'},
+		{id:'3', photo:'img/account/product1.jpg', name:'金炫科技', description:'金炫便捷式电动榨汁机', integral:'49'},
+		{id:'4', photo:'img/account/product1.jpg', name:'金炫科技', description:'金炫便捷式电动榨汁机', integral:'49'},
+		{id:'5', photo:'img/account/product1.jpg', name:'金炫科技', description:'金炫便捷式电动榨汁机', integral:'49'}
+	];
+	
+	$scope.product = {
+		id : '1', integral: '59', photo:'img/account/product1_detail.jpg',
+		summary:"<span>【商品名称】  金炫便捷式电动榨汁杯</span><br><span>【型   号】  劲炫二代</span><br><span>【功       率】  150W</span><br><span>【分       类】  水果/干果处理器</span><br><span>【包装规格】  独立包装</span><p>商品价值159元，兑换后仅需支付58元，商家包邮。</p><p>商品详情 : <a href='http://wap.koudaitong.com/goods/367i2fgqxhsr'>http://wap.koudaitong.com/goods/367i2fgqxhsr</a><p class='orange1'>小滴说：觉得商品棒棒哒，点击商品详情页右上角“圆圈”分享给小伙伴们吧！</p>",
+		usage : "全国", period:'2016/10/31', exchange:"<p>1.兑换后获得（卷码）兑换码，可在兑换记录中查询并做记录；</p><p>2.获取兑换码（卷码）后进入<a href='http://wap.koudaitong.com/goods/367ri2fgqxhs'>http://wap.koudaitong.com/goods/367ri2fgqxhs</a>进行兑换；</p><p>3.点击【立即购买】-【下一步】-【填写详细收货地址】在结算页点开【使用优惠】输入兑换码——支付58元获得产品，商家包邮。</p>",
+		caution:"<p>1.每位滴滴打车用户级金炫科技用户仅限兑换一次；</p><p>2.每个订单只能使用一次，本次优惠不能与其他优惠券同时使用；</p><p>3.全国统一邮费地区不包括港澳台、新疆、西藏及其他国外城市；</p><p>4.由于订单量较大下单后一周内发货哦。</p>",
+		contact : "18112181807",
+		shop:"金炫科技吧最好的产品给您亲们！", shop_photo : "img/account/shop1.jpg"
+	}
+	
+	var myBuy;
+	$scope.buyConfirm = function() {
+		myBuy = $ionicPopup.show({	
+			cssClass : 'buy-popup-css',
+			templateUrl: 'templates/account/integral_shop/buy_confirm.html',
+			scope: $scope
+		});
+	};
+	$scope.buy_cancel = function() {
+		myBuy.close();
+	};
+	$scope.buy_confirm = function() {
+		myBuy.close();
+	};
+	
+	$scope.agree_items = [
+		{photo:'img/account/agree_photo1.jpg',name:'珊珊', age:'21', height:'164', address:'北京'},
+		{photo:'img/account/agree_photo1.jpg',name:'珊珊', age:'21', height:'164', address:'河南'},
+		{photo:'img/account/agree_photo1.jpg',name:'珊珊', age:'21', height:'164', address:'河南'},
+		{photo:'img/account/agree_photo1.jpg',name:'珊珊', age:'21', height:'164', address:'河南'},
+		{photo:'img/account/agree_photo1.jpg',name:'珊珊', age:'21', height:'164', address:'河南'},
+		{photo:'img/account/agree_photo1.jpg',name:'珊珊', age:'21', height:'164', address:'河南'},
+		{photo:'img/account/agree_photo1.jpg',name:'珊珊', age:'21', height:'164', address:'河南'},
+		{photo:'img/account/agree_photo1.jpg',name:'珊珊', age:'21', height:'164', address:'河南'},
+		{photo:'img/account/agree_photo1.jpg',name:'珊珊', age:'21', height:'164', address:'河南'},
+		{photo:'img/account/agree_photo1.jpg',name:'珊珊', age:'21', height:'164', address:'河南'},
+		{photo:'img/account/agree_photo1.jpg',name:'珊珊', age:'21', height:'164', address:'河南'},
+		{photo:'img/account/agree_photo1.jpg',name:'珊珊', age:'21', height:'164', address:'山东'}
+	];
+	
+	$scope.follow_items = [
+		{photo:'img/account/follow_photo1.jpg',name:'珊珊', age:'21', height:'164', address:'北京'},
+		{photo:'img/account/follow_photo2.jpg',name:'GXY', age:'19', height:'170', address:'河南'},
+		{photo:'img/account/follow_photo3.jpg',name:'clear', age:'24', height:'159', address:'北京'},
+		{photo:'img/account/follow_photo4.jpg',name:'下雨了', age:'18', height:'160', address:'山东'},
+		{photo:'img/account/follow_photo5.jpg',name:'小清新', age:'25', height:'162', address:'北京'},
+		{photo:'img/account/follow_photo5.jpg',name:'小清新', age:'25', height:'162', address:'北京'},
+		{photo:'img/account/follow_photo6.jpg',name:'QQWE', age:'20', height:'168', address:'山东'}
+	];
+	$scope.follow_me_items = [
+		{photo:'img/account/follow_photo4.jpg',name:'珊珊', age:'21', height:'164', address:'北京'},
+		{photo:'img/account/follow_photo6.jpg',name:'GXY', age:'19', height:'170', address:'河南'},
+		{photo:'img/account/follow_photo1.jpg',name:'clear', age:'24', height:'159', address:'北京'},
+		{photo:'img/account/follow_photo4.jpg',name:'下雨了', age:'18', height:'160', address:'山东'},
+		{photo:'img/account/follow_photo2.jpg',name:'小清新', age:'25', height:'162', address:'北京'},
+		{photo:'img/account/follow_photo3.jpg',name:'小清新', age:'25', height:'162', address:'北京'},
+		{photo:'img/account/follow_photo6.jpg',name:'QQWE', age:'20', height:'168', address:'山东'}
+	];	
+	
+	$scope.received_items = [
+		{photo:'img/account/received_gift1.jpg'},
+		{photo:'img/account/received_gift1.jpg'},
+		{photo:'img/account/received_gift1.jpg'},
+		{photo:'img/account/received_gift1.jpg'},
+		{photo:'img/account/received_gift1.jpg'},
+		{photo:'img/account/received_gift1.jpg'},
+		{photo:'img/account/received_gift1.jpg'}
+	];
+	$scope.given_items = [
+		{photo:'img/account/given_gift1.jpg'},
+		{photo:'img/account/given_gift1.jpg'},
+		{photo:'img/account/given_gift1.jpg'}
+	];
+	$scope.call_items = [
+		{photo:'img/account/follow_photo1.jpg',name:'珊珊', age:'21', height:'164', address:'北京'},
+		{photo:'img/account/follow_photo2.jpg',name:'GXY', age:'19', height:'170', address:'河南'},
+		{photo:'img/account/follow_photo3.jpg',name:'clear', age:'24', height:'159', address:'北京'},
+		{photo:'img/account/follow_photo4.jpg',name:'下雨了', age:'18', height:'160', address:'山东'},
+		{photo:'img/account/follow_photo5.jpg',name:'小清新', age:'25', height:'162', address:'北京'},
+		{photo:'img/account/follow_photo5.jpg',name:'小清新', age:'25', height:'162', address:'北京'},
+		{photo:'img/account/follow_photo6.jpg',name:'QQWE', age:'20', height:'168', address:'山东'}
+	];	
+	
+		
+	$scope.coins = $state.params.coins;
+	if (!$scope.coins) $scope.coins = '0';
+	switch ($scope.coins) {
+		case '1500':		
+		$scope.coin_cost = '98';
+		break;
+		case '3000':
+		$scope.coin_cost = '198';
+		break;
+		case '6000':
+		$scope.coin_cost = '398';
+		break;
+		default:
+		$scope.coin_cost = '0';
+	}
+	$scope.goCoinPayment = function(coins) {
+		$state.go('coin_payment', {coins:coins});
+	};
+	
+});

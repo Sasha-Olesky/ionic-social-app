@@ -1,0 +1,24 @@
+<ion-view view-title="动态">
+    <ion-nav-buttons side="left">
+        <a ng-click="navBack()">
+            <i class="icon ion-chevron-left nav_back_force"></i>
+        </a>
+    </ion-nav-buttons>
+    <ion-content>
+        <div class="clearfix"></div>
+        <ion-scroll>
+            <ion-item class="item-message" ng-repeat="item in notify_items" ng-click="chatWith(item.userid)" type="item-text-wrap">
+                <div class="row ">
+                    <div class="col col-80 item-messagewarp item-thumbnail-left">
+                        <img ng-src="{{item.photo}}"/>
+                        <h2>{{item.name}}</h2>
+                        <p>{{item.message}}</p>
+                    </div>
+                    <div class="col col-20 text-right">
+                        <span class="span-time">{{item.time}}</span>
+                    </div>
+                </div>
+            </ion-item>
+        <ion-scroll>
+    </ion-content>
+</ion-view>

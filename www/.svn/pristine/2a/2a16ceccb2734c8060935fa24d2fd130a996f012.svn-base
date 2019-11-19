@@ -1,0 +1,15 @@
+<ion-header-bar class="background-positive">
+	<button class="button button-icon ion-ios-arrow-back" ng-click="go_back()"></button>
+	<h1 class="title account-title" ng-class="marginleft">{{personal.username}}</h1>
+</ion-header-bar>
+<ion-view class="video-chat padding">  
+  <ion-content class="padding">    
+	<div class="video-screen">
+		<img src="img/personal_space/video_back.jpg" class="img-responsive">
+	</div>
+	<div class="buttons">
+		<button class="button background-positive button-positive" ng-click="go_present_shop()">送礼物</button>
+		<button class="button background-positive button-positive">表情</button>
+	</div>
+  </ion-content>
+</ion-view>

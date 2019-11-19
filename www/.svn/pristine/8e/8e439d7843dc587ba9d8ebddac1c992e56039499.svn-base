@@ -1,0 +1,46 @@
+<ion-header-bar align-title="center" class="background-positive">	
+	<div class="buttons">
+		<button class="button button-icon" ng-click="exitPost()" class="post-close"><i class="icon ion-close-round"></i></button>
+    </div>
+	<h1 class="title">发表动态</h1>	
+	<div class="buttons">
+        <button class="button button-icon" ng-click="submitArticle(postContent)" class="btn-public">发表</button>
+    </div>
+</ion-header-bar>
+<ion-view view-title="发表动态">
+    <ion-content>
+		<div class="content-public">
+			<div class="description">
+				<textarea name = "description" rows="6" cols="20" class="txt-public" placeholder="说点什么吧...." ng-model="postdata.description" required></textarea>
+			</div>
+			<div class="photo-list">
+				<div class="photo-item" ng-repeat="item in postdata.photos">
+					<img image-lazy-src="{{item.src}}" image-lazy-loader="ios"/>
+					<a ng-click="del_image($index)" class="close"><img src="img/public/close.png"></a>
+				</div>
+				<ion-button class="btn-add" ng-click="takePic()">
+					<img src="img/public/plus.png">
+				</ion-button>
+			</div>
+			<div class="row icon-section">
+				<div class="col-50">
+					<p class="location"><i class="icon ion-female"></i> {{postdata.address}}</p>
+				</div>
+				<div class="col-50 text-right">
+					<ion-button class="like-count">{{ 140 - postdata.description.length}}</ion-button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="item item-toggle">
+					显示位置
+					<label class="toggle toggle-cryan">
+						<input type="checkbox" ng-model="postdata.isaddress" ng-checked="postdata.isaddress">
+						<div class="track">
+							<div class="handle"></div>
+						</div>
+					</label>
+				</div>
+			</div>
+		</div>
+    </ion-content>
+</ion-view>

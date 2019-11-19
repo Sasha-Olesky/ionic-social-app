@@ -1,0 +1,39 @@
+<ion-view view-title="我的消息" cache-view="false">
+    <ion-header-bar align-title="center" class="background-positive">
+        <h1 class="title">我的消息</h1>
+    </ion-header-bar>
+    <!--<ion-tabs class="tabs tabs-top dynamic-subtab">
+        <ion-tab title="收到的消息" href="#/tab/letter/receive">
+   
+            <ion-nav-view name="tab-letter-receive"></ion-nav-view>
+        </ion-tab>
+        <ion-tab title="发送的消息" href="#/tab/letter/send">
+            
+            <ion-nav-view name="tab-letter-send"></ion-nav-view>
+        </ion-tab>
+    </ion-tabs>-->
+<!--
+    <ion-content lazy-scroll>
+		<ion-refresher
+			pulling-text="Pull to refresh..."
+			on-refresh="doRefresh()">
+		</ion-refresher>
+        <ion-list>
+            <ion-item class="item-message" type="item-text-wrap" ng-repeat="friend in friends">
+
+                <div class="row " ng-click="chatWith(friend.userid,friend.target)">
+                    <div class="col col-80 item-messagewarp item-thumbnail-left">
+                        <img ng-src="{{friend.photo}}" />
+                        <h2>{{friend.name}}</h2>
+                        <p>{{friend.message}}</p>
+                    </div>
+                    <div class="col col-20 text-right">
+                        <span class="badge badge-assertive" ng-if="friend.count>0" style="top:0">{{friend.count}}</span>
+                        <span class="span-time">{{friend.time}}</span>
+                    </div>
+                </div>
+            </ion-item>
+			
+        </ion-list>
+    </ion-content>-->
+</ion-view>

@@ -1,0 +1,22 @@
+﻿<ion-header-bar align-title="center" class="background-positive">	
+	<div class="buttons">
+		<button class="button button-icon" ng-click="nextToAlert()"><img src="img/home/bell.png" class="img-responsive"/></button>
+    </div>
+	<h1 class="title">最近在线</h1>
+	<div class="buttons">
+		<button class="button button-icon" ng-click="nextToSearch()"><img src="img/home/search.png" class="img-responsive"/></button>
+	</div>
+</ion-header-bar>
+<ion-view view-title="最近在线" cache-view="false">
+		<ion-content lazy-scroll>
+			<ion-refresher
+			pulling-text="Pull to refresh..."
+			on-refresh="doRefresh()">
+		</ion-refresher>
+		<ion-home-gallery ion-home-gallery-items="users" ion-fixed-row="true"></ion-home-gallery>		
+        <ion-infinite-scroll ng-if="more"
+                on-infinite="loadMore()"
+                distance="2%">
+        </ion-infinite-scroll>
+    </ion-content>
+</ion-view>

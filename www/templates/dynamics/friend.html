@@ -1,0 +1,48 @@
+<ion-view view-title="动态">    
+    <ion-content  class="has-both-tab square" lazy-scroll>
+        <ion-refresher
+		pulling-text="重新加载..."
+		on-refresh="doFriendRefresh()">
+	</ion-refresher>
+	<ion-scroll class="personal-space dynamics padding">
+		<ion-item ng-repeat="item in cur_post.friendposts">
+			<div class="dynamics-summary">
+				<div class="avatar-photo">
+					<img image-lazy-src="{{item.photo}}" class="avatar" ng-click="go_personal(item.userid)" image-lazy-loader="ios" image-lazy-distance-from-bottom-to-load="100"/>
+				</div>
+				<h2 class="font2">「{{item.username}}」<i class="icon" ng-class="item.gender_icon"></i>
+			
+				<p>{{item.reg_date}}</p>
+			</div>
+			<div class="desc" ng-bind-html="item.content"></div>	
+			<div class="images" ng-show="item.images?true:false">				
+				<ion-gallery ion-gallery-items="item.images"></ion-gallery>
+			</div>
+			<div class="buttons">
+				<!--<button class="world"><i class="icon ion-ios-world"></i></button>-->
+				<button class="chatbox" ng-click="start_comment(item.id, $index)"><i class="icon ion-chatbox-working"></i></button>
+				<button class="thumbsup" ng-class="{true:'active'}[item.is_like]" ng-click="like_post(item.id, $index)"><i class="icon ion-thumbsup"></i></button>
+			</div>
+			<div class="like" ng-show="item.like_users.length?true:false">
+				<img src="img/dynamics/like_on.png" class="icon-like"/>
+				<div class="like-photo" ng-repeat="like in item.like_users">
+					<img image-lazy-src="{{like.photo}}" class="avatar" ng-click="go_personal(like.id)" image-lazy-loader="ios" image-lazy-distance-from-bottom-to-load="100"/>
+				</div>
+			</div>
+			<div class="comments" ng-show="item.comments.length?true:false">
+				<p ng-repeat="cmt in item.comments">
+					<span class="username">{{cmt.username}} : </span>
+					<span class="comment">{{cmt.comment}}</span>
+				</p>
+			</div>
+			<div class="say" ng-click="start_comment(item.id, $index)">
+				<p>我来说两句</p><i class="icon ion-happy-outline smile"></i>
+			</div>
+		</ion-item>		
+		<ion-infinite-scroll ng-if="more"
+			on-infinite="loadFriendMore()"
+			distance="2%">
+		</ion-infinite-scroll>		
+	</ion-scroll>	
+    </ion-content>
+</ion-view>

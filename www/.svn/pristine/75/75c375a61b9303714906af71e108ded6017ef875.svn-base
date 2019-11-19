@@ -1,0 +1,45 @@
+﻿<ion-view view-title="最近在线">
+	<ion-nav-buttons side="left">
+      <a ng-click="nextToAlert()">
+		<img src="img/home/bell.png">	
+      </a>
+    </ion-nav-buttons>
+	<ion-nav-buttons side="right">
+      <a ng-click="nextToSearch()">
+		<img src="img/home/search.png">
+      </a>
+    </ion-nav-buttons>
+	
+	<ion-content>
+        <div ng-repeat="user in users" ng-if="$index % 3 == 0" class="row row-no-padding">
+            <div class="block col col-33"  ng-if="users.length > $index">
+                <div class="photo">
+                    <img ng-src="{{users[$index].photo}}"  ng-click="goPersonal($index)">
+                    <a id='like' ng-click="likeTa({{$index}})"><img ng-src="img/home/{{users[$index].islike == 1 && 'like_on.png' || 'like.png'}}"></a>
+                    <span class="username">{{users[$index].username}}</span>
+                    <span class="follows">{{users[$index].likes}}</span>
+                </div>
+            </div>
+            <div class="block col col-33" ng-if="users.length > ($index + 1)">
+                <div class="photo">
+                    <img ng-src="{{users[$index + 1].photo}}" ng-click="goPersonal($index + 1)">
+                    <a id='like' ng-click="likeTa({{$index + 1}})"><img ng-src="img/home/{{users[$index + 1].islike == 1 && 'like_on.png' || 'like.png'}}"></a>
+                    <span class="username">{{users[$index + 1].username}}</span>
+                    <span class="follows">{{users[$index + 1].likes}}</span>
+                </div>
+            </div>
+            <div class="block col col-33" ng-if="users.length > ($index + 2)">
+                <div class="photo">
+                    <img ng-src="{{users[$index + 2].photo}}" ng-click="goPersonal($index+2)">
+                    <a id='like' ng-click="likeTa({{$index + 2}})"><img ng-src="img/home/{{users[$index + 2].islike == 1 && 'like_on.png' || 'like.png'}}"></a>
+                    <span class="username">{{users[$index + 2].username}}</span>
+                    <span class="follows">{{users[$index + 2].likes}}</span>
+                </div>
+            </div>
+        </div>
+        <ion-infinite-scroll ng-if="more"
+                on-infinite="loadMore()"
+                distance="2%">
+        </ion-infinite-scroll>
+    </ion-content>
+</ion-view>

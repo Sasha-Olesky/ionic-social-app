@@ -1,0 +1,22 @@
+<ion-view class="product_list">  
+  <ion-content lazy-scroll>
+	<ion-refresher
+		pulling-text="Pull to refresh..."
+		on-refresh="doRefresh()">
+	</ion-refresher>
+	<ion-scroll style="max-height:{{max_list_height2}}px">
+		<ion-item ng-repeat="item in products" type="item-text-wrap" href="#/product_detail/{{item.id}}">
+			<div class="photo">
+				<img image-lazy-src="{{item.photo}}" image-lazy-loader="ios" image-lazy-distance-from-bottom-to-load="100"/>
+			</div>
+			<p>{{item.name}}</p>
+			<h2>{{item.description}}</h2>
+			<h1>{{item.integral}}U 币</h1>
+		</ion-item>
+		<ion-infinite-scroll ng-if="more"
+			on-infinite="loadMore()"
+			distance="2%">
+		</ion-infinite-scroll>
+	</ion-scroll>
+  </ion-content>
+</ion-view>

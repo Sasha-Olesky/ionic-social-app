@@ -1,0 +1,6 @@
+﻿<div class="vip-popup">
+	<h3>VIP服务</h3>
+	<p>升级VIP会员，就可查看所有人联系方式。</p>
+	<button class="button" ng-click="vip_confirm()">升级VIP会员</button>
+	<button class="button" ng-click="vip_cancel()">继续单身</button>
+</div>

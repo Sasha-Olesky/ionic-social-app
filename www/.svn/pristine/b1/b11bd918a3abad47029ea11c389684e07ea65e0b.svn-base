@@ -1,0 +1,26 @@
+<ion-view view-title="用户资料">
+    <ion-nav-buttons side="right">
+        <a ng-click="nextToCharacter(true)">
+            跳过
+        </a>
+    </ion-nav-buttons>
+    <ion-content>
+        <div class="regContentView text-center">
+            <div class="userinfo">
+                <div class="annoance">
+                    <img src="img/login/actress.png">
+                    <div class="talking">
+                        <img src="img/login/talk_tag.png">
+                        <span>帅哥，你的兴趣爱好是什么？</span>
+                    </div>
+                </div>
+                <div style="clear:both;"></div>
+                <ion-list class="gridview">
+                    <div class="hobby" ng-repeat="item in hobbies" ng-click="selHobby($index)" ng-class="{true:'active'}[cur_checked[$index]]">{{item.hobby}}</div>
+                </ion-list>
+            </div>
+            <div style="clear:both;"></div>
+            <div class="warp-next-btn text-right"><button ng-click="nextToCharacter(false)">下一步</button></div>
+        </div>
+    </ion-content>
+</ion-view>

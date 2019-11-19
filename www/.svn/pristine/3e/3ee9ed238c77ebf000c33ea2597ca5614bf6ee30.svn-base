@@ -1,0 +1,43 @@
+﻿<ion-header-bar class="background-positive">	
+	<button class="button button-icon ion-ios-arrow-back" ng-click="go_back()"></button>
+	<h1 class="title account-title" ng-class="marginleft">{{personal.username}}</h1>
+</ion-header-bar>
+<ion-view>
+	<ion-scroll delegate-handle="parent-scroll" class="parent-scroll" ng-style="{height:parent_height}" >
+		<div class="personal-summary" image-lazy-src="{{personal.photo}}" image-lazy-background-image="true">
+			<button class="search-button" ng-click="vipConfirm(1)">查看是否在线</button>
+			<div class="privacy-info">
+				<div class="avatar-photo">
+					<img image-lazy-src="{{personal.photo}}" class="img-avatar" image-lazy-loader="ios"/>
+				</div>
+				<p class="personal-name">{{personal.username}}<i class="icon" ng-class="personal.gender_icon"></i></p>
+				<p class="personal-detail">
+					<span class="personal-age">{{personal.age}}岁</span>
+					<span class="personal-height">{{personal.stature}}</span>
+					<span>{{personal.address}}</span>
+				</p>
+				<div class="buttons">
+					<button ng-click="followMe()">关注</button>
+					<button ng-click="vipConfirm(2)">申请见面</button>
+					<button ng-click="vipConfirm(3)">视频聊天</button>
+					<button ng-click="vipConfirm(4)">情逗游戏</button>
+				</div>
+			</div>
+		</div>
+		<ion-tabs class="tabs-personal_space tabs-top">		
+			<ion-tab title="她的动态" href="#/personal_space/{{personal_id}}/dynamics">
+				<ion-nav-view name="tab-dynamics"></ion-nav-view>
+			</ion-tab>
+			<ion-tab title="她的资料" href="#/personal_space/{{personal_id}}/profile">
+				<ion-nav-view name="tab-profile"></ion-nav-view>
+			</ion-tab>
+		</ion-tabs>
+	</ion-scroll>
+</ion-view>
+<ion-footer-bar class="dynamics-say" ng-show="show_footer.value">
+	<div class="say-something">
+		<input type="text" placeholder="我来说两句" id="say_something" ng-blur="hide_say()"/>
+		<button ng-click="send_comment()"><i class="icon ion-paper-airplane"></i></button>
+	</div>
+</ion-footer-bar>
+

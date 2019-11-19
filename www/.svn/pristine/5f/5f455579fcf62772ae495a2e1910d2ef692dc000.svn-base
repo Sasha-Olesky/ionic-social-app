@@ -1,0 +1,15 @@
+<ion-view view-title="我的收信">
+    <ion-tabs class="tabs tabs-top dynamic-subtab">
+        <ion-tab title="收到的消息" href="#/tab/letter/receive">
+            <!-- Tab 1 content -->
+            <ion-nav-view name="tab-letter-receive"></ion-nav-view>
+        </ion-tab>
+        <ion-tab title="发送的消息" href="#/tab/letter/send">
+            <!-- Tab 2 content -->
+            <ion-nav-view name="tab-letter-send"></ion-nav-view>
+        </ion-tab>
+    </ion-tabs>
+
+    <ion-content>
+    </ion-content>
+</ion-view>

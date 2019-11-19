@@ -1,0 +1,42 @@
+<ion-view class="personal-space dynamics">
+   <ion-content>  	
+	<ion-scroll class="padding">
+		<ion-item ng-repeat="item in cur_post.posts">
+			<div class="dynamics-summary">
+				<img ng-src="{{item.photo}}" class="avatar"/>
+				<h2 class="font2">「{{item.username}}」<i class="icon" ng-class="item.gender_icon"></i>
+				<a href="#" class="pull-right"><i class="icon ion-chevron-down"></i></a></h2>
+				<p>{{item.reg_date}}</p>
+			</div>
+			<div class="desc" ng-bind-html="item.content"></div>	
+			<div class="images" ng-show="item.images?true:false">
+				<div ng-class="item.image_class" ng-repeat="img in item.images">
+					<img ng-src="{{img}}" ng-click="go_personal(img.id)"/>
+				</div>
+			</div>
+			<div class="buttons">
+				<!--<button class="world"><i class="icon ion-ios-world"></i></button>-->
+				<button class="chatbox" ng-click="start_comment(item.id, $index)"><i class="icon ion-chatbox-working"></i></button>
+				<button class="thumbsup" ng-class="{true:'active'}[item.is_like]" ng-click="like_post(item.id, $index)"><i class="icon ion-thumbsup"></i></button>
+			</div>
+			<div class="like" ng-show="item.like_users.length?true:false">
+				<img src="img/dynamics/like_on.png" class="icon-like"/>
+				<img ng-repeat="like in item.like_users" ng-src="{{like.photo}}" class="avatar" ng-click="go_personal(like.id)"/>
+			</div>
+			<div class="comments" ng-show="item.comments.length?true:false">
+				<p ng-repeat="cmt in item.comments">
+					<span class="username">{{cmt.username}} : </span>
+					<span class="comment">{{cmt.comment}}</span>
+				</p>
+			</div>
+			<div class="say" ng-click="start_comment(item.id, $index)">
+				<p>我来说两句</p><i class="icon ion-happy-outline smile"></i>
+			</div>
+		</ion-item>
+		<ion-infinite-scroll ng-if="more"
+			on-infinite="loadMore()"
+			distance="2%">
+		</ion-infinite-scroll>		
+	</ion-scroll>
+  </ion-content>
+</ion-view>

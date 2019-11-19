@@ -1,0 +1,100 @@
+angular.module('starter.public', [])
+.controller('publicCtrl', function($scope,$ionicActionSheet,$cordovaCamera,Session,$ionicLoading,APIManager,ionicToast) {
+    $scope.postdata = {
+        description:'',
+        address:Session.getSession('user').address,
+        isaddress:false
+    }
+    $scope.$on('$ionicView.beforeEnter', function() {
+        $scope.$emit('child', true);
+        if(!Session.isLoggedIn()){
+            $state.go('login', { param: 'account' });
+        }
+    });
+    $scope.$on('$stateChangeStart', function() {
+        $scope.$emit('child', true);
+    });
+    $scope.submitArticle = function () {
+        var url = 'insert_post';
+        var data = {userid:Session.getSession('user').id, content:$scope.postdata.description,address:Session.getSession('user').address,is_address:$scope.postdata.isaddress};
+        $ionicLoading.show();
+        APIManager.post(url, data).then(function(res) {
+            $ionicLoading.hide();
+            $scope.postdata.description = '';
+            $scope.postdata.isaddress = false;
+            ionicToast.show('成功发送了。', 'middle', false, 1500);
+        });
+    }
+    $scope.clearPost = function(){
+        $scope.postdata.description = '';
+        $scope.postdata.isaddress = false;
+    }
+    $scope.images_list = [];
+
+    // "添加附件"Event
+    $scope.takePic = function() {
+       // nonePopover();
+        $ionicActionSheet.show({
+            buttons: [
+                { text: '相机' },
+                { text: '图库' }
+            ],
+            cancelText: '关闭',
+            cancel: function() {
+                return true;
+            },
+            buttonClicked: function(index) {
+                switch (index){
+                    case 0:
+                        appendByCamera();
+                        break;
+                    case 1:
+                       pickImage();
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
+    }
+    //image picker
+    var pickImage = function () {
+        var options = {
+            maximumImagesCount: 1,
+            width: 800,
+            height: 800,
+            quality: 80
+        };
+
+        window.imagePicker.getPictures(options)
+            .then(function (results) {
+                $scope.images_list.push(results[0]);
+            }, function (error) {
+                // error getting photos
+            });
+    }
+
+    var appendByCamera = function(){
+        var options = {
+            destinationType: Camera.DestinationType.FILE_URI,
+            sourceType: Camera.PictureSourceType.CAMERA,
+        };
+
+        $cordovaCamera.getPicture(options).then(function(imageURI) {
+            $scope.imageSrc= imageURI;
+        }, function(err) {
+            // error
+        });
+    };
+    var appendByGallery = function () {
+        plus.gallery.pick(function(p) {
+            $scope.images_list.push(p);
+        });
+    }
+    $scope.$watch('postdata.description', function(newVal, oldVal) {
+        if(newVal.length > 140)
+            $scope.postdata.description = oldVal;
+
+    });
+});

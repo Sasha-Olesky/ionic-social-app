@@ -1,0 +1,13 @@
+﻿<div class="hobby-popup">
+	<ion-scroll style="max-height:400px;">
+		<ion-checkbox ng-repeat="item in hobbies"
+                      ng-model="item.checked" 
+                      ng-checked="item.checked">
+          {{ item.hobby }}
+        </ion-checkbox>
+	</ion-scroll>
+	<div class="buttons">
+		<button ng-click="hobby_cancel()">取消</button>
+		<button ng-click="hobby_confirm()">确定</button>
+	</div>
+</div>

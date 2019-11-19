@@ -1,0 +1,16 @@
+<ion-header-bar class="background-positive">
+	<button class="button button-icon ion-ios-arrow-back" ng-click="$ionicGoBack()"></button>
+	<h1 class="title account-title" ng-class="marginleft">打招呼</h1>
+</ion-header-bar>
+<ion-view class="agree call-to-meet">  
+  <ion-content>    
+	<ion-list>
+		<ion-item class="item-thumbnail-left" ng-repeat="item in personal.call_items" type="item-text-wrap">
+			<img ng-src="{{item.photo}}"/>
+			<h2>{{item.name}}</h2>
+			<p>{{item.message}}</p>
+			<span class="item-time">{{item.time}}</span>
+		</ion-item>
+	</ion-list>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,11 @@
+<ion-view class="agree">  
+  <ion-content>    
+	<ion-scroll style="max-height:{{max_list_height2}}px">
+		<ion-item class="item-thumbnail-left" ng-repeat="item in follow_me_items" type="item-text-wrap">
+			<img ng-src="{{item.photo}}"/>
+			<h2>{{item.name}}</h2>
+			<p><span>{{item.age}}岁</span> | <span>{{item.height}}cm</span> | <span>{{item.address}}<span></p>
+		</ion-item>
+	</ion-scroll>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,21 @@
+<ion-header-bar class="background-positive">
+	<div class="buttons">
+		<button class="button button-icon ion-ios-arrow-back" ng-click="go_state('update_membership')"></button>
+	</div>
+	<h1 class="title account-title" ng-class="marginleft">特权</h1>
+</ion-header-bar>
+<ion-view class="privilege">  
+  <ion-content>    
+	<ion-scroll style="max-height:{{max_list_height3}}px">
+		<div class="vip_title"><button ng-click="goPayment()">升级VIP</button></div>
+		<div class="privilege-checkbox">
+			<ion-checkbox ng-model="vip.privilege[0]" ng-checked="vip.privilege[0]" ng-disabled="true">与所有用户无限制发言</ion-checkbox>
+			<ion-checkbox ng-model="vip.privilege[1]" ng-checked="vip.privilege[1]" ng-disabled="true">查看所有用户资料</ion-checkbox>
+			<ion-checkbox ng-model="vip.privilege[2]" ng-checked="vip.privilege[2]" ng-disabled="true">将你推荐给更多的在线用户</ion-checkbox>
+			<ion-checkbox ng-model="vip.privilege[3]" ng-checked="vip.privilege[3]" ng-disabled="true">查看谁访问了我的主页</ion-checkbox>
+			<ion-checkbox ng-model="vip.privilege[4]" ng-checked="vip.privilege[4]" ng-disabled="true">查看谁喜欢了我</ion-checkbox>
+			<ion-checkbox ng-model="vip.privilege[5]" ng-checked="vip.privilege[5]" ng-disabled="true">尊享情逗游戏和视频聊天特权</ion-checkbox>
+		</div>
+	<ion-scroll>
+  </ion-content>
+</ion-view>

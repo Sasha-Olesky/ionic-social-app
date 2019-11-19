@@ -1,0 +1,17 @@
+<ion-view class="agree">  
+  <ion-content>
+	<ion-scroll style="max-height:{{max_list_height2}}px" lazy-scroll>
+		<ion-item class="item-thumbnail-left" ng-repeat="item in follows" type="item-text-wrap">
+			<img image-lazy-src="{{item.photo}}" ng-click="go_personal(item.userid)" image-lazy-loader="ios" image-lazy-distance-from-bottom-to-load="100"/>
+			<h2>{{item.username}}<i class="icon" ng-class="item.gender_icon"></i></h2>
+			<p ng-hide="item.is_sent"><span>{{item.age}}岁</span> | <span>{{item.stature}}cm</span> | <span>{{item.address}}<span></p>
+			<p ng-show="item.is_sent" class="follow-greeting"><img ng-src="{{item.greeting_icon}}"/><span>{{item.greeting}}</span></p>
+			<span class="greeting-date" ng-show="item.is_sent">{{item.greeting_time}}</span>
+		</ion-item>
+		<ion-infinite-scroll ng-if="more"
+			on-infinite="loadMore()"
+			distance="2%">
+		</ion-infinite-scroll>
+	</ion-scroll>
+  </ion-content>
+</ion-view>

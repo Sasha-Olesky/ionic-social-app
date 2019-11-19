@@ -1,0 +1,6 @@
+<ion-view view-title="动态">    
+    <ion-content>
+        <div class="clearfix"></div>
+        <p>friend</p>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,17 @@
+<ion-header-bar class="background-positive">
+	<button class="button button-icon ion-ios-arrow-back" ng-click="go_state('tab.account')"></button>
+	<h1 class="title account-title" ng-class="marginleft">申请见面</h1>
+</ion-header-bar>
+<ion-view class="agree">  
+  <ion-content>	
+	<ion-scroll delegate-handle="meets" style="max-height:{{max_list_height3}}px" on-scroll="checkScroll()">
+		<ion-item class="item-thumbnail-left" ng-repeat="item in meets" type="item-text-wrap">
+			<img ng-src="{{item.photo}}"/>
+			<h2>{{item.username}}<i class="icon" ng-class="item.gender_icon"></i></h2>
+			<p ng-hide="item.is_replied"><span>{{item.age}}岁</span> | <span>{{item.stature}}cm</span> | <span>{{item.address}}<span></p>
+			<p ng-show="item.is_replied" class="follow-greeting"><img ng-src="{{item.reply_icon}}"/><span>{{item.reply}}</span></p>
+			<button class="button-greet" ng-click="send_greeting('greeting', item.userid, item.is_sent, $index)" ng-class="{true:'active'}[item.is_sent]">打招呼</button>
+		</ion-item>
+	</ion-scroll>	
+  </ion-content>
+</ion-view>

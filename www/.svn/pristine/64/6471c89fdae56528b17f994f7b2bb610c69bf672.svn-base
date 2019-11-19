@@ -1,0 +1,5 @@
+﻿<div class="buy-popup">	
+	<p>你想退出应用？</p>
+	<button ng-click="cancel_exit()">取消</button>
+	<button ng-click="app_exit()">确定</button>
+</div>

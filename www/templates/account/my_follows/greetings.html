@@ -1,0 +1,11 @@
+﻿<div class="greeting-popup">
+	<div class="row" ng-repeat="item in greetings">
+		<div class="greeting" ng-repeat="g in item.greeting" ng-click="greeting_confirm(g.id)">
+			<img ng-src="{{g.icon}}"/>
+			<span>{{g.greeting}}</span>
+		</div>
+	</div>
+	<div class="buttons">
+		<button ng-click="send_cancel()">取消</button>
+	</div>
+</div>
